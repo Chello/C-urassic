@@ -44,7 +44,7 @@ void Playground::refresh(char *messageText) {
 		strcpy(statusString[numStrings -1], messageText);
 	}
 	
-	for (i = 0; i < HEIGHT; i++) {
+	for (i = 0; i < this->map->height; i++) {
 		if (numStrings > 0) {
 			cout << statusString[--numStrings];
 		} else {
@@ -52,7 +52,7 @@ void Playground::refresh(char *messageText) {
 				cout << ' ';
 			}
 		}
-		for (j = 0; j < LENGHT; j++) {
+		for (j = 0; j < this->map->lenght; j++) {
 			cout << map->matrix[i][j];
 		}
 		cout << endl;

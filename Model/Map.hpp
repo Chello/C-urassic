@@ -28,6 +28,7 @@
 #include "MapCharacter.hpp"
 #endif
 
+//Dimensioni massime che la mappa puó assumere.
 #ifndef SIZES
 #define SIZES
 #define HEIGHT 30
@@ -51,6 +52,9 @@ public:
 	/*
 	Class constructor. It starts at level 1
 	*/
+	//Real maximum sizes of the map, are always <= HEIGHT & LENGHT
+	int height, lenght;
+
 	Map();
 	/*
 	Class constructor
@@ -77,5 +81,8 @@ protected:
 	to the direction gave in 'dir'.
 	Returns true if the object has moved successfully, false otherwise.*/
 	bool moveObject(MapCharacter *mapObj, Directions dir);
-	
+	/*
+	This method cleans the whole matrix map.
+	It signs 0 evrywhere. */
+	void cleanMatrix();
 };

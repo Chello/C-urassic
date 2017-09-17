@@ -9,6 +9,7 @@ Map::Map(const char *presetFile) {
 	int i, j;
 	bool hasLineEnded;
 	numEnemies = 0;
+	this->cleanMatrix();
 	fileIn = fopen(presetFile, "r");
 	if (fileIn == NULL) perror("Preset file error");
 	//Now start loading the preset
@@ -16,7 +17,11 @@ Map::Map(const char *presetFile) {
 	for(i = 0; fgets(readLine, LENGHT + LEN_OFFSET, fileIn) != NULL; i++) {
 		hasLineEnded = false;
 		for (j = 0; j < LENGHT && !hasLineEnded; j++) {
-			if (readLine[j] == '\n') hasLineEnded = true;
+			//If the string ends with a newline or a backslash character...
+			if (readLine[j] == '\n' || readLine[j] == 92) 
+				//so the matrix pattern has ended
+				hasLineEnded = true;
+
 			else matrix[i][j] = readLine[j];
 			if (readLine[j] == PLAYER_SYM) {
 				this->player = new MapCharacter();
@@ -27,11 +32,23 @@ Map::Map(const char *presetFile) {
 			}
 		}
 	}
+
+	//Update the real map sizes
+	this->height = i;
+	this->lenght = j;
 	//fclose(fileIn);
 }
 
 bool Map::movePlayer(Directions dir) {
 	return moveObject(this->player, dir);
+}
+
+void Map::cleanMatrix() {
+	for (int i = 0; i < HEIGHT; i++) {
+		for (int j = 0; j < LENGHT; j++) {
+			this->matrix[i][j] = 0;
+		}
+	}
 }
 
 bool Map::moveObject(MapCharacter *mapObj, Directions dir) {

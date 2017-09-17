@@ -7,14 +7,17 @@ Map::Map(const char *presetFile) {
 	FILE *fileIn;
 	char readLine[LENGHT+1];
 	int i, j;
+	bool hasLineEnded;
 	numEnemies = 0;
 	fileIn = fopen(presetFile, "r");
-	if (fileIn == NULL) perror("err");
-	//Now start loading the matrix
+	if (fileIn == NULL) perror("Preset file error");
+	//Now start loading the preset
 	//This must contain in 'readLine' the current line for saving it
 	for(i = 0; fgets(readLine, LENGHT + LEN_OFFSET, fileIn) != NULL; i++) {
-		for (j = 0; j < LENGHT; j++) {
-			matrix[i][j] = readLine[j];
+		hasLineEnded = false;
+		for (j = 0; j < LENGHT && !hasLineEnded; j++) {
+			if (readLine[j] == '\n') hasLineEnded = true;
+			else matrix[i][j] = readLine[j];
 			if (readLine[j] == PLAYER_SYM) {
 				this->player = new MapCharacter();
 				this->player->height = i;

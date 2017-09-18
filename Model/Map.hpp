@@ -28,6 +28,11 @@
 #include "MapCharacter.hpp"
 #endif
 
+#ifndef Player_H
+#define Player_H value
+#include "Player.hpp"
+#endif
+
 //Dimensioni massime che la mappa puó assumere.
 #ifndef SIZES
 #define SIZES
@@ -68,19 +73,19 @@ public:
 	*/
 	bool movePlayer(Directions dir);
 	/*Method that returns the MapCharacter of the player*/
-	MapCharacter* getPlayer();
+	Player* getPlayer();
 
 protected:
 	/*
 	Contains the pointer to the player*/
-	MapCharacter 	*player;
+	Player 	*player;
 	/*The enemies in the game*/
-	MapCharacter 	*enemies[];
+	Player 	*enemies[];
 	/*
 	This method makes move the specified object (with relative position) 
 	to the direction gave in 'dir'.
 	Returns true if the object has moved successfully, false otherwise.*/
-	bool moveObject(MapCharacter *mapObj, Directions dir);
+	bool moveObject(Player *mapObj, Directions dir);
 	/*
 	This method cleans the whole matrix map.
 	It signs 0 evrywhere. */

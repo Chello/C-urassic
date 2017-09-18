@@ -24,7 +24,7 @@ Map::Map(const char *presetFile) {
 
 			else matrix[i][j] = readLine[j];
 			if (readLine[j] == PLAYER_SYM) {
-				this->player = new MapCharacter();
+				this->player = new Player();
 				this->player->height = i;
 				this->player->lenght = j;
 				this->player->obj = &matrix[i][j];
@@ -51,7 +51,7 @@ void Map::cleanMatrix() {
 	}
 }
 
-bool Map::moveObject(MapCharacter *mapObj, Directions dir) {
+bool Map::moveObject(Player *mapObj, Directions dir) {
 	int *l, *h;
 	l = &(mapObj->lenght);
 	h = &(mapObj->height);
@@ -105,6 +105,6 @@ bool Map::moveObject(MapCharacter *mapObj, Directions dir) {
 	return false;
 }
 
-MapCharacter* Map::getPlayer() {
+Player* Map::getPlayer() {
 	return player;
 }

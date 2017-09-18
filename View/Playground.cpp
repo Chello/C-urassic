@@ -17,7 +17,7 @@ void Playground::refresh() {
 
 void Playground::refresh(char *messageText) {
 	int i, j, numStrings;
-	MapCharacter *player = this->map->getPlayer();
+	Player *player = this->map->getPlayer();
 
 	/*First thing to do is generate the strings*/
 	/*numStrings contains the number of side strings*/

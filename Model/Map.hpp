@@ -24,7 +24,7 @@
 #endif
 
 #ifndef PLAYER_H
-#define PLAYER_H value
+#define PLAYER_H
 #include "Player.hpp"
 #endif
 

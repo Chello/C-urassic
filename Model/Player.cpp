@@ -4,7 +4,6 @@
 #endif
 
 Player::Player() {
-	printf("sciao\n");
 }
 
 Player::Player(char *obj, int height, int lenght, int lifePoints, int ammo) {

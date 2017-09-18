@@ -46,10 +46,12 @@ int main(int argc, char const *argv[]) {
 	provaView->refresh();
 	while (isPlaying) {
 		char input = '\0', messageText[MAXSTRLEN] = "";
-		Directions dir;
+		Directions dir = MOVE_NULL;
+		input = 0;
 		cout << "Please enter the next move: ";
 		cin >> input;
-		
+		cout << input;
+
 		switch (input) {
 			case 'a':
 			case 'A':

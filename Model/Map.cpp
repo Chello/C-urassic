@@ -24,7 +24,7 @@ Map::Map(const char *presetFile) {
 
 			else matrix[i][j] = readLine[j];
 			if (readLine[j] == PLAYER_SYM) {
-				this->player = new Player();
+				this->player = new Player(&matrix[i][j], i, j, STARTING_LIFEPOINTS, 0);
 				this->player->height = i;
 				this->player->lenght = j;
 				this->player->obj = &matrix[i][j];

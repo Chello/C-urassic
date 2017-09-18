@@ -13,11 +13,6 @@
 #include <cstring>
 #endif
 
-#ifndef DIRECTIONS_H
-#define DIRECTIONS_H
-#include "Directions.hpp"
-#endif
-
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include "../Control/Settings.hpp"
@@ -27,10 +22,18 @@ using namespace std;
 
 class Player {
 public:
+	/*Class constructor.
+	It could require nothing for simple creation of a player.
+	Could also require all the player attributes (char *obj, int heigh, lenght, lifepoints and ammo) 
+	*/
+	Player();
+	Player(char *obj, int height, int lenght, int lifePoints, int ammo);
 	/*Referenced MapObject*/
 	char *obj;
 	/*Absolute position in the map*/
 	int height, lenght;
 	/*Lifepoints*/
 	int lifePoints;
+	/*Ammo for the player*/
+	int ammo;
 };

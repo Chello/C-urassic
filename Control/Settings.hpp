@@ -4,6 +4,7 @@
 //Ad esempio i simboli dei vari elementi del tabellone
 
 #define WALL_SYM '#'
+//#define PLAYER_SYM "\u2658"
 #define PLAYER_SYM '@'
 #define EMPTY_SYM ' '
 

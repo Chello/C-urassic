@@ -23,13 +23,8 @@
 #include "../Control/Settings.hpp"
 #endif
 
-#ifndef MapCharacter_H
-#define MapCharacter_H
-#include "MapCharacter.hpp"
-#endif
-
-#ifndef Player_H
-#define Player_H value
+#ifndef PLAYER_H
+#define PLAYER_H value
 #include "Player.hpp"
 #endif
 

@@ -16,7 +16,9 @@ void Playground::refresh() {
 }
 
 void Playground::refresh(char *messageText) {
-	int i, j, numStrings;
+	int i, j;
+        int numStrings = 1;
+        //printf("%d", LEFT_BORDER);
 	Player *player = this->map->getPlayer();
 
 	/*First thing to do is generate the strings*/
@@ -31,8 +33,10 @@ void Playground::refresh(char *messageText) {
 		}
 	numStrings += 1 //The player status
 				+ this->map->numEnemies; //+ the enemies statuses
-
-	char statusString[numStrings][LEFT_BORDER +1];
+        char** statusString = new char*[numStrings];
+        for (i = 0; i < numStrings; i++) {
+            statusString[i] = new char[LEFT_BORDER +1];
+        }
 	/*Let's start from the player*/
 	sprintf(statusString[0], "%c has %d lifepoints", *(player->obj), player->lifePoints);
 	addSpaces(statusString[0]);
@@ -61,10 +65,12 @@ void Playground::refresh(char *messageText) {
 
 void Playground::addSpaces(char *c) {
 	//Calculate how much spaces to add at left and right
-	int i, spacesLR;
-	char spc[spacesLR +1], cc[LEFT_BORDER];
+	int i, spacesLR = (LEFT_BORDER - strlen(c)) /2;;
+        
+        char cc[LEFT_BORDER];
+	char spc[spacesLR+1]; 
 
-	spacesLR  = (LEFT_BORDER - strlen(c)) /2;
+	//spacesLR  = (LEFT_BORDER - strlen(c)) /2;
 	for (i = 0; i < spacesLR; i++) {
 		spc[i] = ' ';
 	}

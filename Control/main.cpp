@@ -36,7 +36,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
 	bool isPlaying = true;
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
-	Map 		*provaMap = new Map("/home/chello/Unibo/Programmazione_Lanevse/C-urassic/Map_Presets/level1.map");
+	Map 		*provaMap = new Map("C:\\Users\\Federico\\C-urassic\\Map_Presets\\level1.map");
 
 	Playground 	*provaView = new Playground();
 

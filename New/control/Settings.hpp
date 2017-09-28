@@ -3,18 +3,11 @@
 
 //Ad esempio i simboli dei vari elementi del tabellone
 
-#define WALL_SYM '#'
-//#define PLAYER_SYM "\u2658"
-#define PLAYER_SYM '@'
+//#define WALL_SYM '#'
+//#define PLAYER_SYM '@'
 #define EMPTY_SYM ' '
-
-/*The max string lenght*/
-#define MAXSTRLEN 50
 
 //Ad ogni modo in ogni elemento (che é un oggetto dentro la cartella Model) c'é giá un'implementazione di default, quindi se non viene definita adesso non importa.
 
 //Qua decido che quando comincia una partita il player ha 100 'punti vita'
 #define STARTING_LIFEPOINTS 100
-
-//Moltiplicatore dei nemici
-#define MULT_ENEMIES 3

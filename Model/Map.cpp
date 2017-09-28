@@ -3,18 +3,34 @@
 #include "../Model/Map.hpp"
 #endif
 
+Map::Map() {
+	this->init();
+}
+
+void Map::init(){
+	this->level = 1;
+}
+
 Map::Map(const char *presetFile) {
 	FILE *fileIn;
-	char readLine[LENGHT+1];
-	int i, j;
-	bool hasLineEnded;
 	numEnemies = 0;
+	this->init();
 	this->cleanMatrix();
 	fileIn = fopen(presetFile, "r");
 	if (fileIn == NULL) perror("Preset file error");
+	this->getPreset(fileIn);
+
+	this->generateMap();
+}
+
+
+void Map::getPreset(FILE *preset) {
+	bool hasLineEnded;
+	char readLine[LENGHT+1];
+	int i, j;
 	//Now start loading the preset
 	//This must contain in 'readLine' the current line for saving it
-	for(i = 0; fgets(readLine, LENGHT + LEN_OFFSET, fileIn) != NULL; i++) {
+	for(i = 0; fgets(readLine, LENGHT + LEN_OFFSET, preset) != NULL; i++) {
 		hasLineEnded = false;
 		for (j = 0; j < LENGHT && !hasLineEnded; j++) {
 			//If the string ends with a newline or a backslash character...
@@ -37,6 +53,42 @@ Map::Map(const char *presetFile) {
 	this->height = i;
 	this->lenght = j;
 	//fclose(fileIn);
+}
+
+void Map::generateMap() {
+	int numRooms = this->level %2 +1;
+	int i;
+
+	//this->numEnemies = this->level * MULT_ENEMIES;
+	
+	//Genera la mappa
+	for (i = 1; i < numRooms; i++){
+		//Disegna un muro
+		//Calcola la posizione x di partenza
+		//Bisogna lasciare uno spazio tra i muri di almeno il 15% del resto della mappa
+		double offsetD = (double)this->lenght /100 *15;
+		int offset = (int) offsetD;
+		//variabile che terrá la posizione y del disegno da ora in poi. Inizia dall'estremo, randomicamente, alto o basso.
+		int x, y;
+		x = rand() % (this->lenght - (offset *2));
+		//Variabile che mi segna se sto disegnando il muro a scendere oppure no
+		bool topDown;
+		if ((rand() % 2) == 0) {
+			y = 0;
+			topDown = true;
+		}
+		else {
+			y = this->lenght;
+			topDown = false;
+		}
+		//Finché non trovo un muro disegno!
+		while (this->matrix[y][x] != WALL_SYM) {
+			printf("loool\n");
+			this->matrix[y][x] = WALL_SYM;
+			if (topDown) y--;
+			else y++;
+		}
+	}
 }
 
 bool Map::movePlayer(Directions dir) {

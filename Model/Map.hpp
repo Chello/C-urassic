@@ -69,13 +69,16 @@ public:
 	bool movePlayer(Directions dir);
 	/*Method that returns the MapCharacter of the player*/
 	Player* getPlayer();
-
+	/*Aumenta di livello e rigenera la mappa secondo il nuovo livello*/
+	void levelUp();
 protected:
 	/*
 	Contains the pointer to the player*/
 	Player 	*player;
 	/*The enemies in the game*/
 	Player 	*enemies[];
+	/*Il livello attuale della mappa*/
+	int 		level;
 	/*
 	This method makes move the specified object (with relative position) 
 	to the direction gave in 'dir'.
@@ -85,4 +88,11 @@ protected:
 	This method cleans the whole matrix map.
 	It signs 0 evrywhere. */
 	void cleanMatrix();
+	/*Metodo che genera la mappa a seconda del livello a cui si é*/
+	void generateMap();
+	/*Inserisce nella map il preset indicato dal file.
+	Imposta anche l'altezza e la larghezza della map, usando quella del preset*/
+	void getPreset(FILE *preset);
+	/*Inizializza la classe insieme al resto*/
+	void init();
 };

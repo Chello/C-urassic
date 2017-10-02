@@ -35,6 +35,8 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
 	bool isPlaying = true;
+
+	srand(time(NULL));
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
 	Map 		*provaMap = new Map("/home/chello/Unibo/Programmazione_Lanevse/C-urassic/Map_Presets/level1.map");
 
@@ -46,7 +48,7 @@ int main(int argc, char const *argv[]) {
 	provaView->refresh();
 	while (isPlaying) {
 		char input = '\0', messageText[MAXSTRLEN] = "";
-		Directions dir = MOVE_NULL;
+		Directions dir = NULL_DIR;
 		input = 0;
 		cout << "Please enter the next move: ";
 		cin >> input;
@@ -54,19 +56,19 @@ int main(int argc, char const *argv[]) {
 		switch (input) {
 			case 'a':
 			case 'A':
-				dir = MOVE_LEFT;
+				dir = LEFT;
 				break;
 			case 's':
 			case 'S':
-				dir = MOVE_DOWN;
+				dir = DOWN;
 				break;
 			case 'd':
 			case 'D':
-				dir = MOVE_RIGHT;
+				dir = RIGHT;
 				break;
 			case 'w':
 			case 'W':
-				dir = MOVE_UP;
+				dir = UP;
 				break;
 			case 'c': break;
 				//We don't use 'q' because, while playing, this key could be pressed accidentally

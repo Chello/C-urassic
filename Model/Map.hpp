@@ -28,11 +28,26 @@
 #include "Player.hpp"
 #endif
 
+#ifndef CTIME_H
+#define CTIME_H
+#include <ctime>
+#endif
+
+#ifndef CSTDLIB
+#define CSTDLIB
+#include <cstdlib>
+#endif
+
 //Dimensioni massime che la mappa puó assumere.
 #ifndef SIZES
 #define SIZES
-#define HEIGHT 30
-#define LENGHT 60
+#define HEIGHT 200
+#define LENGHT 350
+//Definisce la distanza percentuale di realizzazione muri a distanza.
+#define DIST_WALL 35
+//Definisce le massime e le minime dimensioni di una stanza
+#define MAX_ROOM_SIZE 8
+#define MIN_ROOM_SIZE 6
 #endif
 
 //The offset to be added to the LENGHT parameter.
@@ -95,4 +110,11 @@ protected:
 	void getPreset(FILE *preset);
 	/*Inizializza la classe insieme al resto*/
 	void init();
+	/*Disegna una stanza, dandogli le dimensioni e la posizione nella matrice.
+		int xSize 	la dimensione del lato x
+		int ySize 	la dimensione del lato y
+		int xS 		la posizione x di inizio del disegno
+		int yS 		la posizione y di inizio del disegno
+		Directions holeSide la posizione del buco tra le due stanze in che lato si deve formare*/
+	void drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide);
 };

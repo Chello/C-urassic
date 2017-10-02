@@ -7,6 +7,9 @@
 //#define PLAYER_SYM "\u2658"
 #define PLAYER_SYM '@'
 #define EMPTY_SYM ' '
+#define PORTAL_SYM 'C'
+#define ITEM_AMMO 'A'
+#define ITEM_LP 'L'
 
 /*The max string lenght*/
 #define MAXSTRLEN 50
@@ -15,6 +18,8 @@
 
 //Qua decido che quando comincia una partita il player ha 100 'punti vita'
 #define STARTING_LIFEPOINTS 100
+
+#define STARTING_AMMO 30
 
 //Moltiplicatore dei nemici
 #define MULT_ENEMIES 3

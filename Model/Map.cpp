@@ -18,8 +18,9 @@ Map::Map(const char *presetFile) {
 	this->cleanMatrix();
 	fileIn = fopen(presetFile, "r");
 	if (fileIn == NULL) perror("Preset file error");
-	this->getPreset(fileIn);
+	//this->getPreset(fileIn);
 
+	this->level = 2;
 	this->generateMap();
 }
 
@@ -51,45 +52,234 @@ void Map::getPreset(FILE *preset) {
 
 	//Update the real map sizes
 	this->height = i;
-	this->lenght = j;
+	this->lenght = j -1; //Calo di 1 perché bisogna considerare anche il carattere di fine preset
 	//fclose(fileIn);
+
+
 }
 
+
 void Map::generateMap() {
-	int numRooms = this->level %2 +1;
+	int numRooms = this->level /2 +1;
 	int i;
 
+	int xSize;
+	int ySize;
+
+	Directions dir = NULL_DIR;
+
+	int x = 0, y = 0;
+
+	this->lenght = 0;
+	this->height = 0;
+
 	//this->numEnemies = this->level * MULT_ENEMIES;
+
+	xSize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
+
+	ySize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
+
+	/*############## GENERAZIONE MAPPA ##############*/
+	for (i = 0; i < numRooms; i++) {
+		//Posizioni dove sto andando a disegnare
+		if (x + xSize > this->lenght) this->lenght = x + xSize +1;
+		if (y + ySize > this->height) this->height = y + ySize +1;
+
+		this->drawRoom(xSize, ySize, x, y, dir);
+
+		//Determino dove devo stampare la prossima stanza
+		if (i < 2) {//Le prime falle tutte una a dx dell'altra
+			x += xSize;
+			dir = LEFT;
+		} else if (i == 2) {
+			y += ySize;
+			dir = UP;
+		} else if (i > 2 && i < 5) {
+			x -= xSize;
+			dir = RIGHT;
+		} else if (i == 5) {
+			y += ySize;
+			dir = UP;
+		}
+	}
+	/*############## GENERAZIONE PLAYER ##############*/
+	this->matrix[this->height -2][1] = PLAYER_SYM;
+	this->player = new Player(&matrix[this->height -2][1], this->height -2, 1, STARTING_LIFEPOINTS, STARTING_AMMO);
+	/*############## GENERAZIONE PORTALE ##############*/
 	
-	//Genera la mappa
-	for (i = 1; i < numRooms; i++){
+	/*############## GENERAZIONE NEMICI ##############*/
+
+}
+
+
+void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
+	int x = 0, y = 0;
+	int i; 
+	/*La variabile holeSize determina la grandezza del buco che si deve realizzare nella direzione indicata come parametro
+	La variabile offset indica la distanza dal margine di incomincio.*/
+	int holeSize = 0;
+	int offset = 0;
+
+	if (holeSide == UP){
+		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		offset = rand() % (xSize - holeSize) +1;
+		holeSize += offset;
+	}
+
+	for (i = 0; i < xSize; i++) {
+		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			this->matrix[yS][xS] = WALL_SYM;
+		else this->matrix[yS][xS] = ' ';
+		xS++;
+		holeSize--; offset--;
+	}
+
+	if (holeSide == RIGHT){
+		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		offset = rand() % (ySize - holeSize) +1;
+		holeSize += offset;
+	}
+
+	for (i = 0; i < ySize; i++) {
+		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			this->matrix[yS][xS] = WALL_SYM;
+		else this->matrix[yS][xS] = ' ';
+		yS++;
+		holeSize--; offset--;
+	}
+
+	if (holeSide == DOWN){
+		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		offset = rand() % (xSize - holeSize) +1;
+		holeSize += offset;
+	}
+
+	for (i = 0; i < xSize; i++) {
+		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			this->matrix[yS][xS] = WALL_SYM;
+		else this->matrix[yS][xS] = ' ';
+		xS--;
+		holeSize--; offset--;
+	}
+
+	if (holeSide == LEFT){
+		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		offset = rand() % (ySize - holeSize) +1;
+		holeSize += offset;
+	}
+
+	for (i = 0; i < ySize; i++) {
+		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			this->matrix[yS][xS] = WALL_SYM;
+		else this->matrix[yS][xS] = ' ';
+		yS--;
+		holeSize--; offset--;
+	}
+}
+/*
+Deprecato
+void Map::generateMap() {
+	int numRooms = this->level /2 +1;
+	int i, j = 0, holeSizes;
+
+	//this->numEnemies = this->level * MULT_ENEMIES;
+	//Viene seguita una logica di rotazione assiale per la realizzazione di muri.
+	int axisRotation;
+
+	//################ GENERAZIONE DEI MURI ################
+	srand(time(NULL)); 
+
+	axisRotation = rand() %4;
+	
+	for (i = 1; i < numRooms; i++) {
 		//Disegna un muro
 		//Calcola la posizione x di partenza
 		//Bisogna lasciare uno spazio tra i muri di almeno il 15% del resto della mappa
-		double offsetD = (double)this->lenght /100 *15;
-		int offset = (int) offsetD;
-		//variabile che terrá la posizione y del disegno da ora in poi. Inizia dall'estremo, randomicamente, alto o basso.
+		int offset;
+		//variabili che terranno le posizioni x ed y del disegno da ora in poi.
+		//La scrittura di un muro inizia da un estremo della mappa.
 		int x, y;
-		x = rand() % (this->lenght - (offset *2));
-		//Variabile che mi segna se sto disegnando il muro a scendere oppure no
-		bool topDown;
-		if ((rand() % 2) == 0) {
-			y = 0;
-			topDown = true;
+		/*Sono utili per il cambio di direzione del muro (alto-basso vs sx-dx) *
+		int a, b;
+		/*Variabile che mi segna se sto disegnando il muro
+				da sx vs dx / dall'alto vs il basso (true)
+				da dx vs sx / dal basso vs l'alto (false).
+			Che tradotto significa se mi sto allontanando dall'asse (true) oppure se mi ci sto avvicinando (false) *
+		bool layerMark;
+		/*Variabile che viene considerata per disegnare 
+			in verticale (true)
+			oppure in orizzontale (false) *
+		bool invertCoordinates;
+
+		//x = rand() % (this->lenght - (offset *2));
+
+		switch (axisRotation) {
+			case 0:
+				//Inizia dall'alto verso il basso 
+				offset = (int) ((double)this->lenght /100 *DIST_WALL);
+
+				y = 1; //Non inizio da 0 perché ovviamente in quella posizione cé giá il muro!
+				x = rand() % (this->lenght - (offset *2)) + offset;//Dico da dove parto
+
+				layerMark = true;
+				invertCoordinates = true;
+				break;
+			case 1:
+				//Inizia dal basso verso l'alto
+				offset = (int) ((double)this->lenght /100 *DIST_WALL);
+
+				y = this->height -2; //Non inizio da lenght perché ovviamente in quella posizione cé giá il muro!
+				x = rand() % (this->lenght - (offset *2)) + offset;//Dico da dove parto
+
+				layerMark = false;
+				invertCoordinates = true;
+				break;
+			case 2:
+				//inizia da sx verso dx
+				offset = (int) ((double)this->height /100 *DIST_WALL);
+
+				y = rand() % (this->height - (offset *2)) + offset;
+				x = 1; //Non inizio da 0 perché ovviamente in quella posizione cé giá il muro!
+
+				layerMark = true;
+				invertCoordinates = false;
+				break;
+			case 3:
+				//Inizia da dx verso sx
+				offset = (int) ((double)this->height /100 *DIST_WALL);	
+
+				y = rand() % (this->height - (offset *2)) + offset;
+				x = this->lenght -2; //Non inizio da height perché ovviamente in quella posizione cé giá il muro!
+
+				layerMark = false;
+				invertCoordinates = false;
+				break;
+			default: break;
 		}
-		else {
-			y = this->lenght;
-			topDown = false;
-		}
-		//Finché non trovo un muro disegno!
+
+		holeSizes = (rand() % offset) /2 + 1;
+		j = 0;
+
 		while (this->matrix[y][x] != WALL_SYM) {
-			printf("loool\n");
-			this->matrix[y][x] = WALL_SYM;
-			if (topDown) y--;
-			else y++;
+			if (j < holeSizes) 
+				j++;
+			else this->matrix[y][x] = WALL_SYM;
+			if (layerMark) { //Se mi sto allontanando dall'asse ...
+				if (invertCoordinates) //Se sto andando in verticale...
+					y++; //Aumento nell'asse y
+				else x++; //Altrimenti incremento nell'asse x
+			}
+			else { //Se invece mi sto avvicinando all'asse...
+				if (invertCoordinates) //Se sto andando in verticale
+					y--; //Decremento nell'asse y
+				else x--; //Altrimenti Decremento nell'asse x
+			}
 		}
+
+		axisRotation++;
+		if (axisRotation == 4) axisRotation = 0;
 	}
-}
+}*/
 
 bool Map::movePlayer(Directions dir) {
 	return moveObject(this->player, dir);
@@ -98,7 +288,7 @@ bool Map::movePlayer(Directions dir) {
 void Map::cleanMatrix() {
 	for (int i = 0; i < HEIGHT; i++) {
 		for (int j = 0; j < LENGHT; j++) {
-			this->matrix[i][j] = 0;
+			this->matrix[i][j] = ' ';
 		}
 	}
 }
@@ -108,7 +298,7 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 	l = &(mapObj->lenght);
 	h = &(mapObj->height);
 	switch (dir){
-		case MOVE_UP:
+		case UP:
 			if (matrix[(*h)-1][(*l)] == EMPTY_SYM) {
 
 				matrix[(*h)-1][(*l)] = *mapObj->obj;
@@ -119,7 +309,7 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 				return true;
 			}
 		break;
-		case MOVE_DOWN:
+		case DOWN:
 			if (matrix[(*h) +1][(*l)] == EMPTY_SYM) {
 
 				matrix[(*h) +1][(*l)] = *mapObj->obj;
@@ -130,7 +320,7 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 				return true;
 			}
 			break;
-		case MOVE_LEFT:
+		case LEFT:
 			if (matrix[(*h)][(*l) -1] == EMPTY_SYM) {
 
 				matrix[(*h)][(*l) -1] = *mapObj->obj;
@@ -141,7 +331,7 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 				return true;
 			}
 			break;
-		case MOVE_RIGHT:
+		case RIGHT:
 			if (matrix[(*h)][(*l) +1] == EMPTY_SYM) {
 
 				matrix[(*h)][(*l) +1] = *mapObj->obj;

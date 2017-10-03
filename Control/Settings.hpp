@@ -8,8 +8,8 @@
 #define PLAYER_SYM '@'
 #define EMPTY_SYM ' '
 #define PORTAL_SYM 'C'
-#define ITEM_AMMO 'A'
-#define ITEM_LP 'L'
+#define AMMO_SYM 'A'
+#define LP_SYM 'L'
 
 /*The max string lenght*/
 #define MAXSTRLEN 50

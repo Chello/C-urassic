@@ -87,6 +87,27 @@ void Map::generateMap() {
 
 		this->drawRoom(xSize, ySize, x, y, dir);
 
+		/*############## GENERAZIONE PLAYER ##############*/
+		if (i == 0) {
+			this->matrix[this->height -2][1] = PLAYER_SYM;
+			this->player = new Player(
+				&matrix[this->height -2][1], 
+				this->height -2, 
+				1, 
+				STARTING_LIFEPOINTS, 
+				STARTING_AMMO);
+		}
+
+		/*############## GENERAZIONE PORTALE ##############*/
+		if (i +1 == numRooms) {
+			this->matrix[this->height -2][this->lenght -2] = PORTAL_SYM;
+			this->portal = new Item(
+				&this->matrix[this->height -2][this->lenght -2], 
+				this->height -2, 
+				this->lenght -2,
+				0,
+				PORTAL);
+		}
 		//Determino dove devo stampare la prossima stanza
 		if (i < 2) {//Le prime falle tutte una a dx dell'altra
 			x += xSize;
@@ -102,10 +123,7 @@ void Map::generateMap() {
 			dir = UP;
 		}
 	}
-	/*############## GENERAZIONE PLAYER ##############*/
-	this->matrix[this->height -2][1] = PLAYER_SYM;
-	this->player = new Player(&matrix[this->height -2][1], this->height -2, 1, STARTING_LIFEPOINTS, STARTING_AMMO);
-	/*############## GENERAZIONE PORTALE ##############*/
+	
 	
 	/*############## GENERAZIONE NEMICI ##############*/
 

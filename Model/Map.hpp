@@ -38,6 +38,16 @@
 #include <cstdlib>
 #endif
 
+#ifndef ITEMTYPES_H
+#define ITEMTYPES_H
+#include "ItemTypes.hpp"
+#endif
+
+#ifndef ITEM_H
+#define ITEM_H
+#include "Item.hpp"
+#endif
+
 //Dimensioni massime che la mappa puó assumere.
 #ifndef SIZES
 #define SIZES
@@ -92,6 +102,9 @@ protected:
 	Player 	*player;
 	/*The enemies in the game*/
 	Player 	*enemies[];
+	/*Il portale*/
+	Item 	*portal;
+
 	/*Il livello attuale della mappa*/
 	int 		level;
 	/*

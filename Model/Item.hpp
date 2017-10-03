@@ -18,22 +18,24 @@
 #include "../Control/Settings.hpp"
 #endif
 
+#ifndef ITEMTYPES_H
+#define ITEMTYPES_H
+#include "ItemTypes.hpp"
+#endif
+
 using namespace std;
 
-class Player {
+class Item {
 public:
-	/*Class constructor.
-	It could require nothing for simple creation of a player.
-	Could also require all the player attributes (char *obj, int heigh, lenght, lifepoints and ammo) 
-	*/
-	Player();
-	Player(char *obj, int height, int lenght, int lifePoints, int ammo);
+	Item();
+	Item(char *obj, int height, int lenght, int amount, ItemTypes type);
+	//~Item();
 	/*Il riferimento all'oggetto della mappa*/
 	char *obj;
 	/*Posizone assoluta nella mappa*/
 	int height, lenght;
-	/*Punti vita*/
-	int lifePoints;
-	/*Ammo for the player*/
-	int ammo;
+	/*Ammontare della caratteristica dell'item*/
+	int amount;	
+	/*Il tipo di item che assume*/
+	ItemTypes type;
 };

@@ -1,5 +1,5 @@
-main: main.o Playground.o Map.o Playground.o Settings.o Player.o
-	g++ -g -o C-urassic main.o Playground.o Map.o Player.o -lm
+main: main.o Playground.o Map.o Playground.o Settings.o Player.o Item.o
+	g++ -g -o C-urassic main.o Playground.o Map.o Player.o Item.o -lm
 
 main.o: Playground.o Map.o
 	g++ -g -c Control/main.cpp

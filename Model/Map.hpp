@@ -56,7 +56,7 @@
 //Definisce la distanza percentuale di realizzazione muri a distanza.
 #define DIST_WALL 35
 //Definisce le massime e le minime dimensioni di una stanza
-#define MAX_ROOM_SIZE 8
+#define MAX_ROOM_SIZE 6
 #define MIN_ROOM_SIZE 6
 #endif
 

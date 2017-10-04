@@ -20,7 +20,7 @@ Map::Map(const char *presetFile) {
 	if (fileIn == NULL) perror("Preset file error");
 	//this->getPreset(fileIn);
 
-	this->level = 2;
+	this->level = 11;
 	this->generateMap();
 }
 
@@ -100,11 +100,24 @@ void Map::generateMap() {
 
 		/*############## GENERAZIONE PORTALE ##############*/
 		if (i +1 == numRooms) {
-			this->matrix[this->height -2][this->lenght -2] = PORTAL_SYM;
+			int xPortal, yPortal;
+
+			if (i < 3) {
+				xPortal = 1;
+				yPortal = this->height;
+			} else if (i == 3) {
+				xPortal = this->lenght -2;
+				yPortal = this->height -2;
+			} else if (i > 3) {
+				xPortal = this->lenght - ((xSize) * (i - 2));
+				yPortal = this->height -2;
+			}
+
+			this->matrix[yPortal][xPortal] = PORTAL_SYM;
 			this->portal = new Item(
-				&this->matrix[this->height -2][this->lenght -2], 
-				this->height -2, 
-				this->lenght -2,
+				&this->matrix[yPortal][xPortal], 
+				yPortal, 
+				xPortal,
 				0,
 				PORTAL);
 		}

@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
 
 	srand(time(NULL));
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
-	Map 		*provaMap = new Map("/home/chello/Unibo/Programmazione_Lanevse/C-urassic/Map_Presets/level1.map");
+	Map 		*provaMap = new Map(4);
 
 	Playground 	*provaView = new Playground();
 

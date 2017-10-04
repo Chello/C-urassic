@@ -61,7 +61,7 @@
 //Definisce la distanza percentuale di realizzazione muri a distanza.
 #define DIST_WALL 35
 //Definisce le massime e le minime dimensioni di una stanza
-#define MAX_ROOM_SIZE 7
+#define MAX_ROOM_SIZE 6
 #define MIN_ROOM_SIZE 6
 #endif
 
@@ -85,8 +85,9 @@ public:
 	//Real maximum sizes of the map, are always <= HEIGHT & LENGHT
 	int height, lenght;
 
-	Map();
-	/*
+	/*Costruttore di classe. Inizia dal livello indicatogli come parametro a costruire una mappa*/
+	Map(int level);
+	/****DEPRECATO****
 	Class constructor
 	It loads the passed filemap. The filemap shoud have a size of 30x60 
 	Some of the levels/presets are saved into 
@@ -108,7 +109,7 @@ protected:
 	Contains the pointer to the player*/
 	Player 	*player;
 	/*The enemies in the game*/
-	Enemy 	*enemies[];
+	Enemy 	**enemies;
 	/*Il portale*/
 	Item 	*portal;
 

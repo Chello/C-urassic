@@ -3,26 +3,25 @@
 #include "../Model/Map.hpp"
 #endif
 
-Map::Map() {
+Map::Map(int level) {
 	this->init();
+	this->level = level;
+	this->generateMap();
 }
 
 void Map::init(){
-	this->level = 1;
+	this->cleanMatrix();
 }
 
 Map::Map(const char *presetFile) {
 	FILE *fileIn;
-	numEnemies = 0;
 	this->init();
-	this->cleanMatrix();
 	fileIn = fopen(presetFile, "r");
 	if (fileIn == NULL) perror("Preset file error");
 	//this->getPreset(fileIn);
 
-    this->level = 1;
-
-    this->generateMap(); }
+    this->generateMap(); 
+}
 
 
 void Map::getPreset(FILE *preset) {
@@ -66,6 +65,8 @@ void Map::generateMap() {
 	int xSize;
 	int ySize;
 
+	int partialNumEnemies = 0;
+
 	Directions dir = NULL_DIR;
 
 	int x = 0, y = 0;
@@ -73,12 +74,13 @@ void Map::generateMap() {
 	this->lenght = 0;
 	this->height = 0;
 
-	this->numEnemies = this->level * MULT_ENEMIES;
-
 	xSize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
 	ySize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
+	this->numEnemies = numRooms * MULT_ENEMIES;
+
+	this->enemies = new Enemy*[this->numEnemies];
 	/*############## GENERAZIONE MAPPA ##############*/
 	for (i = 0; i < numRooms; i++) {
 		int j;
@@ -88,41 +90,23 @@ void Map::generateMap() {
 
 		this->drawRoom(xSize, ySize, x, y, dir);
 
-		/*############## GENERAZIONE PLAYER ##############*/
-		if (i == 0) {
-			this->matrix[this->height -2][1] = PLAYER_SYM;
-			this->player = new Player(
-				&matrix[this->height -2][1], 
-				this->height -2, 
-				1, 
-				STARTING_LIFEPOINTS, 
-				STARTING_AMMO);
+		/*############## GENERAZIONE NEMICI ##############*/
+		for (j = 0; j < MULT_ENEMIES ; j++){
+			int xEnemy = 1 + x + rand() % (xSize -2);
+			int yEnemy = 1 + y + rand() % (ySize -2);
+			if (this->matrix[yEnemy][xEnemy] == EMPTY_SYM){
+				/*Crealo!*/
+				this->matrix[yEnemy][xEnemy] = partialNumEnemies +'@' +1;
+				this->enemies[partialNumEnemies] = new Enemy(
+					&this->matrix[yEnemy][xEnemy], 
+					yEnemy,
+					xEnemy,
+					STARTING_LIFEPOINTS, 
+					STARTING_AMMO);
+				partialNumEnemies++;
+			} else j--;
 		}
 
-		/*############## GENERAZIONE PORTALE ##############*/
-		if (i +1 == numRooms) {
-			int xPortal, yPortal;
-
-			if (i < 3) {
-				xPortal = 1;
-				yPortal = this->height;
-			} else if (i == 3) {
-				xPortal = this->lenght -2;
-				yPortal = this->height -2;
-			} else if (i > 3) {
-				xPortal = this->lenght - ((xSize) * (i - 2));
-				yPortal = this->height -2;
-			}
-
-			this->matrix[yPortal][xPortal] = PORTAL_SYM;
-			this->portal = new Item(
-				&this->matrix[yPortal][xPortal], 
-				yPortal, 
-
-				xPortal,
-				0,
-				PORTAL);
-		}
 		//Determino dove devo stampare la prossima stanza
 		if (i < 2) {//Le prime falle tutte una a dx dell'altra
 			x += xSize;
@@ -137,23 +121,42 @@ void Map::generateMap() {
 			y += ySize;
 			dir = UP;
 		}
-	
-		/*############## GENERAZIONE NEMICI ##############*/
-		for (j = 0; j < this->numEnemies; j++){
-			int xEnemy = 1 + rand() % (this->lenght -2);
-			int yEnemy = 1 + rand() % (this->height -2);
-			if (this->matrix[yEnemy][xEnemy] == EMPTY_SYM){
-				/*Crealo!*/
-				this->matrix[yEnemy][xEnemy] = j +1 + '0';
-				this->enemies[j] = new Enemy(
-					&this->matrix[yEnemy][xEnemy], 
-					yEnemy,
-					xEnemy,
-					STARTING_LIFEPOINTS, 
-					STARTING_AMMO);
-			} else j--;
+
+		/*############## GENERAZIONE PLAYER ##############*/
+		if (i == 0) {
+			this->matrix[this->height -2][1] = PLAYER_SYM;
+			this->player = new Player(
+				&matrix[this->height -2][1], 
+				this->height -2, 
+				1, 
+				STARTING_LIFEPOINTS, 
+				STARTING_AMMO);
 		}
+
 	}
+
+	/*############## GENERAZIONE PORTALE ##############*/
+	int xPortal, yPortal;
+
+	if (i < 4) {
+		xPortal = this->lenght -2;
+		yPortal = 1;
+	} else if (i == 4) {
+		xPortal = this->lenght -2;
+		yPortal = this->height -2;
+	} else if (i > 4) {
+		xPortal = this->lenght - ((xSize) * (i - 2));
+		yPortal = this->height -2;
+	}
+
+	this->matrix[yPortal][xPortal] = PORTAL_SYM;
+	this->portal = new Item(
+		&this->matrix[yPortal][xPortal], 
+		yPortal, 
+		xPortal,
+		0,
+		PORTAL);
+
 
 }
 

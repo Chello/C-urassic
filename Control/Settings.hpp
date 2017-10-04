@@ -7,9 +7,9 @@
 //#define PLAYER_SYM "\u2658"
 #define PLAYER_SYM '@'
 #define EMPTY_SYM ' '
-#define PORTAL_SYM 'C'
-#define AMMO_SYM 'A'
-#define LP_SYM 'L'
+#define PORTAL_SYM '0'
+#define AMMO_SYM '-'
+#define LP_SYM '^'
 
 /*The max string lenght*/
 #define MAXSTRLEN 50

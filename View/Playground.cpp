@@ -20,7 +20,7 @@ void Playground::refresh(char *messageText) {
     int numStrings = 1;
 	Player *player = this->map->getPlayer();
 
-    char** statusString = new char*[numStrings];
+    char** statusString;
 
     Enemy** enemies = this->map->getEnemies();
 	/*First thing to do is generate the strings*/
@@ -39,6 +39,7 @@ void Playground::refresh(char *messageText) {
 				+ this->map->numEnemies; //+ the enemies statuses
 
 	//Generazione della matrice delle stringhe (secondo lo standard C++)
+	statusString = new char*[numStrings];
     for (i = 0; i < numStrings; i++) {
         statusString[i] = new char[LEFT_BORDER +1];
     }
@@ -46,18 +47,20 @@ void Playground::refresh(char *messageText) {
 	sprintf(statusString[0], "%c: %d LP, %d Ammo", *(player->obj), player->lifePoints, player->ammo);
 	addSpaces(statusString[0]);
 
-	//Qui ci va il codice dei nemici!
+	//Scrive tutti i dettagli relativi ai nemici
 	for (i = 1; i <= this->map->numEnemies; i++) {
 		sprintf(statusString[i], "%c: %d LP, %d Ammo",
-			*(enemies[i -1]->obj), enemies[i -1]->lifePoints, enemies[i -1]->ammo);\
+			*(enemies[i -1]->obj), enemies[i -1]->lifePoints, enemies[i -1]->ammo);
 		addSpaces(statusString[i]);
 	}
 
+	//Scrive l'eventuale testo passato come parametro
 	if (messageText != NULL) {
 		addSpaces(messageText);
 		strcpy(statusString[numStrings -1], messageText);
 	}
 	
+	//Poi inizio materialmente a scrivere tutto su console
 	for (i = 0; i < this->map->height; i++) {
 		if (numStrings > 0) {
 			cout << statusString[--numStrings];
@@ -70,6 +73,11 @@ void Playground::refresh(char *messageText) {
 			cout << map->matrix[i][j];
 		}
 		cout << endl;
+	}
+
+	//Se ancora non sono esaurite delle righe dei dettagli, esauriscile
+	while (numStrings > 0) {
+		cout << statusString[--numStrings] << endl;
 	}
 }
 

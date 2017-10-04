@@ -57,7 +57,7 @@
 #ifndef SIZES
 #define SIZES
 #define HEIGHT 200
-#define LENGHT 350
+#define LENGHT 200
 //Definisce la distanza percentuale di realizzazione muri a distanza.
 #define DIST_WALL 35
 //Definisce le massime e le minime dimensioni di una stanza

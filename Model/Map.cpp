@@ -20,7 +20,9 @@ Map::Map(const char *presetFile) {
 	if (fileIn == NULL) perror("Preset file error");
 	//this->getPreset(fileIn);
 
-    this->level = 1;     this->generateMap(); }
+    this->level = 1;
+
+    this->generateMap(); }
 
 
 void Map::getPreset(FILE *preset) {
@@ -138,8 +140,8 @@ void Map::generateMap() {
 	
 		/*############## GENERAZIONE NEMICI ##############*/
 		for (j = 0; j < this->numEnemies; j++){
-			int xEnemy = rand() % this->lenght -1;
-			int yEnemy = rand() % this->height -1;
+			int xEnemy = 1 + rand() % (this->lenght -2);
+			int yEnemy = 1 + rand() % (this->height -2);
 			if (this->matrix[yEnemy][xEnemy] == EMPTY_SYM){
 				/*Crealo!*/
 				this->matrix[yEnemy][xEnemy] = j +1 + '0';

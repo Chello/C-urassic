@@ -8,6 +8,11 @@
 #include "../Model/Map.hpp"
 #endif
 
+#ifndef ENEMY_H
+#define ENEMY_H
+#include "../Model/Enemy.hpp"
+#endif
+
 #ifndef NAMESPACE_STD_DEF
 #define NAMESPACE_STD_DEF
 using namespace std;

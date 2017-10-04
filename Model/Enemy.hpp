@@ -27,7 +27,7 @@ using namespace std;
 
 class Enemy: public Player {
 public:
-	Enemy();
+	Enemy(char *obj, int height, int lenght, int lifePoints, int ammo);
 	~Enemy();
 	
 };

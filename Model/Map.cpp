@@ -20,9 +20,7 @@ Map::Map(const char *presetFile) {
 	if (fileIn == NULL) perror("Preset file error");
 	//this->getPreset(fileIn);
 
-	this->level = 11;
-	this->generateMap();
-}
+    this->level = 1;     this->generateMap(); }
 
 
 void Map::getPreset(FILE *preset) {
@@ -60,7 +58,7 @@ void Map::getPreset(FILE *preset) {
 
 
 void Map::generateMap() {
-	int numRooms = this->level /2 +1;
+	int numRooms = this->level;
 	int i;
 
 	int xSize;
@@ -73,7 +71,7 @@ void Map::generateMap() {
 	this->lenght = 0;
 	this->height = 0;
 
-	//this->numEnemies = this->level * MULT_ENEMIES;
+	this->numEnemies = this->level * MULT_ENEMIES;
 
 	xSize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
@@ -81,6 +79,7 @@ void Map::generateMap() {
 
 	/*############## GENERAZIONE MAPPA ##############*/
 	for (i = 0; i < numRooms; i++) {
+		int j;
 		//Posizioni dove sto andando a disegnare
 		if (x + xSize > this->lenght) this->lenght = x + xSize +1;
 		if (y + ySize > this->height) this->height = y + ySize +1;
@@ -117,6 +116,7 @@ void Map::generateMap() {
 			this->portal = new Item(
 				&this->matrix[yPortal][xPortal], 
 				yPortal, 
+
 				xPortal,
 				0,
 				PORTAL);
@@ -135,10 +135,23 @@ void Map::generateMap() {
 			y += ySize;
 			dir = UP;
 		}
+	
+		/*############## GENERAZIONE NEMICI ##############*/
+		for (j = 0; j < this->numEnemies; j++){
+			int xEnemy = rand() % this->lenght -1;
+			int yEnemy = rand() % this->height -1;
+			if (this->matrix[yEnemy][xEnemy] == EMPTY_SYM){
+				/*Crealo!*/
+				this->matrix[yEnemy][xEnemy] = j +1 + '0';
+				this->enemies[j] = new Enemy(
+					&this->matrix[yEnemy][xEnemy], 
+					yEnemy,
+					xEnemy,
+					STARTING_LIFEPOINTS, 
+					STARTING_AMMO);
+			} else j--;
+		}
 	}
-	
-	
-	/*############## GENERAZIONE NEMICI ##############*/
 
 }
 
@@ -160,7 +173,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	for (i = 0; i < xSize; i++) {
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
 			this->matrix[yS][xS] = WALL_SYM;
-		else this->matrix[yS][xS] = ' ';
+		else this->matrix[yS][xS] = EMPTY_SYM;
 		xS++;
 		holeSize--; offset--;
 	}
@@ -174,7 +187,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	for (i = 0; i < ySize; i++) {
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
 			this->matrix[yS][xS] = WALL_SYM;
-		else this->matrix[yS][xS] = ' ';
+		else this->matrix[yS][xS] = EMPTY_SYM;
 		yS++;
 		holeSize--; offset--;
 	}
@@ -188,7 +201,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	for (i = 0; i < xSize; i++) {
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
 			this->matrix[yS][xS] = WALL_SYM;
-		else this->matrix[yS][xS] = ' ';
+		else this->matrix[yS][xS] = EMPTY_SYM;
 		xS--;
 		holeSize--; offset--;
 	}
@@ -202,7 +215,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	for (i = 0; i < ySize; i++) {
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
 			this->matrix[yS][xS] = WALL_SYM;
-		else this->matrix[yS][xS] = ' ';
+		else this->matrix[yS][xS] = EMPTY_SYM;
 		yS--;
 		holeSize--; offset--;
 	}
@@ -319,7 +332,7 @@ bool Map::movePlayer(Directions dir) {
 void Map::cleanMatrix() {
 	for (int i = 0; i < HEIGHT; i++) {
 		for (int j = 0; j < LENGHT; j++) {
-			this->matrix[i][j] = ' ';
+			this->matrix[i][j] = EMPTY_SYM;
 		}
 	}
 }
@@ -380,4 +393,8 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 
 Player* Map::getPlayer() {
 	return player;
+}
+
+Enemy** Map::getEnemies() {
+	return this->enemies;
 }

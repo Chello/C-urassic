@@ -20,6 +20,9 @@ void Playground::refresh(char *messageText) {
     int numStrings = 1;
 	Player *player = this->map->getPlayer();
 
+    char** statusString = new char*[numStrings];
+
+    Enemy** enemies = this->map->getEnemies();
 	/*First thing to do is generate the strings*/
 	/*numStrings contains the number of side strings*/
 	if (messageText == NULL) 
@@ -36,16 +39,20 @@ void Playground::refresh(char *messageText) {
 				+ this->map->numEnemies; //+ the enemies statuses
 
 	//Generazione della matrice delle stringhe (secondo lo standard C++)
-    char** statusString = new char*[numStrings];
     for (i = 0; i < numStrings; i++) {
         statusString[i] = new char[LEFT_BORDER +1];
     }
-	/*Let's start from the player*/
-	sprintf(statusString[0], "%c has %d lifepoints", *(player->obj), player->lifePoints);
+	/*Iniziamo descrivendo il player*/
+	sprintf(statusString[0], "%c: %d LP, %d Ammo", *(player->obj), player->lifePoints, player->ammo);
 	addSpaces(statusString[0]);
 
-
 	//Qui ci va il codice dei nemici!
+	for (i = 1; i <= this->map->numEnemies; i++) {
+		sprintf(statusString[i], "%c: %d LP, %d Ammo",
+			*(enemies[i -1]->obj), enemies[i -1]->lifePoints, enemies[i -1]->ammo);\
+		addSpaces(statusString[i]);
+	}
+
 	if (messageText != NULL) {
 		addSpaces(messageText);
 		strcpy(statusString[numStrings -1], messageText);

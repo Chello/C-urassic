@@ -48,6 +48,11 @@
 #include "Item.hpp"
 #endif
 
+#ifndef ENEMY_H
+#define ENEMY_H
+#include "Enemy.hpp"
+#endif
+
 //Dimensioni massime che la mappa puó assumere.
 #ifndef SIZES
 #define SIZES
@@ -96,12 +101,14 @@ public:
 	Player* getPlayer();
 	/*Aumenta di livello e rigenera la mappa secondo il nuovo livello*/
 	void levelUp();
+	/*Ritorna l'array dei nemici*/
+	Enemy** getEnemies();
 protected:
 	/*
 	Contains the pointer to the player*/
 	Player 	*player;
 	/*The enemies in the game*/
-	Player 	*enemies[];
+	Enemy 	*enemies[];
 	/*Il portale*/
 	Item 	*portal;
 

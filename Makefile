@@ -22,7 +22,7 @@ Player.o: Model/Player.cpp Model/Player.hpp Settings.o
 Item.o: Model/Item.cpp Model/Item.hpp Settings.o Model/Directions.hpp Model/ItemTypes.hpp
 	g++ -g -c Model/Item.cpp
 
-Enemy.o: Model/Enemy.cpp Model/Enemy.hpp Player.o Settings.o
+Enemy.o: Model/Enemy.cpp Model/Enemy.hpp Player.o Settings.o Map.o 
 	g++ -g -c Model/Enemy.cpp
 
 clean:

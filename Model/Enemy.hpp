@@ -23,9 +23,11 @@
 #include "Player.hpp"
 #endif
 
+#if 0
 #ifndef MAP_H
 #define MAP_H
-#include "../Model/Map.hpp"
+#include "Map.hpp"
+#endif
 #endif
 
 using namespace std;
@@ -34,5 +36,5 @@ class Enemy: public Player {
 public:
 	Enemy(char *obj, int height, int lenght, int lifePoints, int ammo);
 	~Enemy();
-	void IA(Map *map);
+	//void IA(Map *map);
 };

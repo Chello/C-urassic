@@ -36,5 +36,5 @@ class Enemy: public Player {
 public:
 	Enemy(char *obj, int height, int lenght, int lifePoints, int ammo);
 	~Enemy();
-	//void IA(Map *map);
+	void IA(Map *map);
 };

@@ -1,8 +1,11 @@
-main: main.o Playground.o Map.o Playground.o Settings.o Player.o Item.o Enemy.o
-	g++ -g -o C-urassic main.o Playground.o Map.o Player.o Enemy.o Item.o -lm
+main: main.o Playground.o Map.o Playground.o Settings.o Player.o Item.o Enemy.o Game.o
+	g++ -g -o C-urassic main.o Game.o Playground.o Map.o Player.o Enemy.o Item.o Game.o -lm
 
 main.o: Map.o Playground.o
 	g++ -g -c Control/main.cpp
+
+Game.o: Control/Game.cpp Control/Game.hpp Settings.o Player.o Item.o Enemy.o
+	g++ -g -c Control/Game.cpp
 
 Settings.o: Control/Settings.hpp
 	g++ -g -c Control/Settings.hpp

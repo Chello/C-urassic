@@ -14,6 +14,11 @@
 #include "../Model/Map.hpp"
 #endif
 
+#ifndef GAME_H
+#define GAME_H
+#include "../Control/Game.hpp"
+#endif
+
 #ifndef NAMESPACE_STD_DEF
 #define NAMESPACE_STD_DEF
 using namespace std;

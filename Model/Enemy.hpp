@@ -23,7 +23,7 @@
 #include "Player.hpp"
 #endif
 
-#if 0
+#if 1
 #ifndef MAP_H
 #define MAP_H
 #include "Map.hpp"

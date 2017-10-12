@@ -66,6 +66,7 @@ void Map::generateMap() {
 	int ySize;
 
 	int partialNumEnemies = 0;
+	int partialNumItems = 0;
 
 	Directions dir = NULL_DIR;
 
@@ -79,8 +80,10 @@ void Map::generateMap() {
 	ySize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
 	this->numEnemies = numRooms * MULT_ENEMIES;
+	this->numItems = MULT_AMMO * level;
 
 	this->enemies = new Enemy*[this->numEnemies];
+	this->items = new Item*[this->numItems];
 	/*############## GENERAZIONE MAPPA ##############*/
 	for (i = 0; i < numRooms; i++) {
 		int j;
@@ -104,6 +107,22 @@ void Map::generateMap() {
 					STARTING_LIFEPOINTS, 
 					STARTING_AMMO);
 				partialNumEnemies++;
+			} else j--;
+		}
+
+		/*############## GENERAZIONE ITEM AMMO ##############*/
+		for (j = 0; j < this->numItems / numRooms; j++) {
+			int xAmmo = 1 + x + rand() % (xSize -2);
+			int yAmmo = 1 + y + rand() % (ySize -2);
+			if (this->matrix[yAmmo][xAmmo] == EMPTY_SYM) {
+				this->matrix[yAmmo][xAmmo] = AMMO_SYM;
+				this->items[partialNumItems] = new Item(
+					&this->matrix[yAmmo][xAmmo], 
+					yAmmo, 
+					xAmmo, 
+					STARTING_AMMO, 
+					AMMO);
+				partialNumItems++;
 			} else j--;
 		}
 

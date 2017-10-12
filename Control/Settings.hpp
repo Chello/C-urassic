@@ -27,3 +27,6 @@ class Enemy;
 
 //Moltiplicatore dei nemici
 #define MULT_ENEMIES 3
+
+//Moltiplicatore delle ammo
+#define MULT_AMMO 1

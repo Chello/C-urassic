@@ -73,12 +73,12 @@ using namespace std;
 
 class Map {
 public:
-	/*
-	Attribute containing the plain matrix of the map loaded
-	*/
+	/*La matrice contenenre l'intera mappa*/
 	char 		matrix[HEIGHT][LENGHT];
-	/*The number of enemies in the game*/
+	/*Il numero dei nemici*/
 	int 		numEnemies;
+	/*Il numero degli items*/
+	int 		numItems;
 	/*
 	Class constructor. It starts at level 1
 	*/
@@ -110,6 +110,8 @@ protected:
 	Player 	*player;
 	/*The enemies in the game*/
 	Enemy 	**enemies;
+	/*Gli items*/
+	Item 	**items;
 	/*Il portale*/
 	Item 	*portal;
 

@@ -79,10 +79,10 @@ public:
 	int 		numEnemies;
 	/*Il numero degli items*/
 	int 		numItems;
-	/*
-	Class constructor. It starts at level 1
-	*/
-	//Real maximum sizes of the map, are always <= HEIGHT & LENGHT
+	/*Dimensioni effettive della mappa.
+		this->height <= HEIGHT
+		this->lenght <= LENGHT
+		*/
 	int height, lenght;
 
 	/*Costruttore di classe. Inizia dal livello indicatogli come parametro a costruire una mappa*/
@@ -93,22 +93,23 @@ public:
 	Some of the levels/presets are saved into 
 	*/
 	Map(const char *presetFile);
-	/*
-	It moves the player in the directions passed by parameter
-	Returns true if the move has done successfully, false otherwise
+	/*	Distruttore. Distrugge tutto.
+		Distrugge i seguenti oggetti: enemies, portal, items, player.*/
+	~Map();
+	/* 	Muove il player oppure un enemy.
+		Ritorna true se il movimento é avvenuto con successo, false altrimenti
 	*/
 	bool movePlayer(Directions dir);
-	/*Method that returns the MapCharacter of the player*/
+	/*Metodo che ritorna il player*/
 	Player* getPlayer();
 	/*Aumenta di livello e rigenera la mappa secondo il nuovo livello*/
 	void levelUp();
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
 protected:
-	/*
-	Contains the pointer to the player*/
+	/*Puntatore al giocatore*/
 	Player 	*player;
-	/*The enemies in the game*/
+	/*I nemici del gioco*/
 	Enemy 	**enemies;
 	/*Gli items*/
 	Item 	**items;
@@ -126,7 +127,8 @@ protected:
 	This method cleans the whole matrix map.
 	It signs 0 evrywhere. */
 	void cleanMatrix();
-	/*Metodo che genera la mappa a seconda del livello a cui si é*/
+	/*	Metodo che genera la mappa a seconda del livello a cui si é.
+		Genera ulteriormente le ammo, i nemici, le porte ed il giocatore.*/
 	void generateMap();
 	/*Inserisce nella map il preset indicato dal file.
 	Imposta anche l'altezza e la larghezza della map, usando quella del preset*/

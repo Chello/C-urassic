@@ -1,34 +1,7 @@
 //Utilizzo la notazione #ifndef...#define...#endif cosí posso definire le varie dipendenze di ogni file internamente utilizzando appunto quel costrutto, senza che venga ridefinito.
-#ifndef PLAYGROUND_H
-#define PLAYGROUND_H value
-#include "../View/Playground.hpp"
-#endif
-
-#ifndef DIRECTIONS_H
-#define DIRECTIONS_H
-#include "../Model/Directions.hpp"
-#endif
-
-#ifndef MAP_H
-#define MAP_H
-#include "../Model/Map.hpp"
-#endif
-
 #ifndef GAME_H
 #define GAME_H
 #include "../Control/Game.hpp"
-#endif
-
-#ifndef NAMESPACE_STD_DEF
-#define NAMESPACE_STD_DEF
-using namespace std;
-#endif
-
-//Le dimensioni del tabellone
-#ifndef SIZES
-#define SIZES
-#define HEIGHT 30
-#define LENGHT 60
 #endif
 
 //Qua dentro ci sono tutte le varie impostazioni del gioco.
@@ -37,63 +10,12 @@ using namespace std;
 #include "Settings.hpp"
 #endif
 
+using namespace std;
 
 int main(int argc, char const *argv[]) {
-	bool isPlaying = true;
-
 	srand(time(NULL));
-	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
-	Map 		*provaMap = new Map(4);
-
-	Playground 	*provaView = new Playground();
-
-	//Il Playground ha bisogno della mappa da caricare 
-	provaView->loadMap(provaMap);
-	//Il Playground stampa la mappa
-	provaView->refresh();
-	while (isPlaying) {
-		char input = '\0', messageText[MAXSTRLEN] = "";
-		Directions dir = NULL_DIR;
-		input = 0;
-		cout << "Please enter the next move: ";
-		cin >> input;
-
-		switch (input) {
-			case 'a':
-			case 'A':
-				dir = LEFT;
-				break;
-			case 's':
-			case 'S':
-				dir = DOWN;
-				break;
-			case 'd':
-			case 'D':
-				dir = RIGHT;
-				break;
-			case 'w':
-			case 'W':
-				dir = UP;
-				break;
-			case 'c': break;
-				//We don't use 'q' because, while playing, this key could be pressed accidentally
-			case 'Q':
-				isPlaying = false;
-				exit(0);
-				break;
-			default:
-				strcpy(messageText, "Invalid key!");
-				break;
-		}
-
-		if (provaMap->movePlayer(dir)) {
-
-		} else {
-			strcpy(messageText, "Invalid key!");
-		}
-		provaView->refresh(messageText);
-	}
-
+	Game *g = new Game();
+	g->start();
 
 	return 0;
 }

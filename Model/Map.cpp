@@ -57,7 +57,6 @@ void Map::getPreset(FILE *preset) {
 
 }
 
-
 void Map::generateMap() {
 	int numRooms = this->level;
 	int i;
@@ -80,7 +79,7 @@ void Map::generateMap() {
 	ySize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
 	this->numEnemies = numRooms * MULT_ENEMIES;
-	this->numItems = MULT_AMMO * level;
+	this->numItems = MULT_ITEM * level;
 
 	this->enemies = new Enemy*[this->numEnemies];
 	this->items = new Item*[this->numItems];
@@ -110,19 +109,32 @@ void Map::generateMap() {
 			} else j--;
 		}
 
-		/*############## GENERAZIONE ITEM AMMO ##############*/
+		/*############## GENERAZIONE ITEMS ##############*/
 		for (j = 0; j < this->numItems / numRooms; j++) {
-			int xAmmo = 1 + x + rand() % (xSize -2);
-			int yAmmo = 1 + y + rand() % (ySize -2);
-			if (this->matrix[yAmmo][xAmmo] == EMPTY_SYM) {
-				this->matrix[yAmmo][xAmmo] = AMMO_SYM;
-				this->items[partialNumItems] = new Item(
-					&this->matrix[yAmmo][xAmmo], 
-					yAmmo, 
-					xAmmo, 
-					STARTING_AMMO, 
-					AMMO);
-				partialNumItems++;
+			int xItem = 1 + x + rand() % (xSize -2);
+			int yItem = 1 + y + rand() % (ySize -2);
+
+			if (this->matrix[yItem][xItem] == EMPTY_SYM) {
+				//É un LP oppure un AMMO?
+				if (rand() % 2) { //Se é un AMMO
+					this->matrix[yItem][xItem] = AMMO_SYM;
+					this->items[partialNumItems] = new Item(
+						&this->matrix[yItem][xItem], 
+						yItem, 
+						xItem, 
+						STARTING_AMMO, 
+						AMMO);
+					partialNumItems++;
+				} else { //Se é un LP
+					this->matrix[yItem][xItem] = LP_SYM;
+					this->items[partialNumItems] = new Item(
+						&this->matrix[yItem][xItem], 
+						yItem, 
+						xItem, 
+						0, 
+						LIFEPOINTS);
+					partialNumItems++;
+				}
 			} else j--;
 		}
 
@@ -179,7 +191,6 @@ void Map::generateMap() {
 
 }
 
-
 void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	int x = 0, y = 0;
 	int i; 
@@ -189,62 +200,87 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 	int offset = 0;
 
 	if (holeSide == UP){
+		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		//Ci aggiungo un offset per non farlo appiccicato a terra
 		offset = rand() % (xSize - holeSize) +1;
 		holeSize += offset;
 	}
 
+	//Per la dimensione del muro
 	for (i = 0; i < xSize; i++) {
+		//Se ci sto ancora dentro
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			//Disegno un muro
 			this->matrix[yS][xS] = WALL_SYM;
+		//Altrimenti disegno il vuoto
 		else this->matrix[yS][xS] = EMPTY_SYM;
 		xS++;
 		holeSize--; offset--;
 	}
 
 	if (holeSide == RIGHT){
+		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		//Ci aggiungo un offset per non farlo appiccicato a terra
 		offset = rand() % (ySize - holeSize) +1;
 		holeSize += offset;
 	}
 
+	//Per la dimensione del muro
 	for (i = 0; i < ySize; i++) {
+		//Se ci sto ancora dentro
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			//Disegno un muro
 			this->matrix[yS][xS] = WALL_SYM;
+		//Altrimenti disegno il vuoto
 		else this->matrix[yS][xS] = EMPTY_SYM;
 		yS++;
 		holeSize--; offset--;
 	}
 
 	if (holeSide == DOWN){
+		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		//Ci aggiungo un offset per non farlo appiccicato a terra
 		offset = rand() % (xSize - holeSize) +1;
 		holeSize += offset;
 	}
 
+	//Per la dimensione del muro
 	for (i = 0; i < xSize; i++) {
+		//Se ci sto ancora dentro
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			//Disegno un muro
 			this->matrix[yS][xS] = WALL_SYM;
+		//Altrimenti disegno il vuoto
 		else this->matrix[yS][xS] = EMPTY_SYM;
 		xS--;
 		holeSize--; offset--;
 	}
 
 	if (holeSide == LEFT){
+		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		//Ci aggiungo un offset per non farlo appiccicato a terra
 		offset = rand() % (ySize - holeSize) +1;
 		holeSize += offset;
 	}
 
+	//Per la dimensione del muro
 	for (i = 0; i < ySize; i++) {
+		//Se ci sto ancora dentro
 		if (offset > 0 || (offset <= 0 && holeSize <= 0))
+			//Disegno un muro
 			this->matrix[yS][xS] = WALL_SYM;
+		//Altrimenti disegno il vuoto
 		else this->matrix[yS][xS] = EMPTY_SYM;
 		yS--;
 		holeSize--; offset--;
 	}
 }
-/*
+
+#if 0
 Deprecato
 void Map::generateMap() {
 	int numRooms = this->level /2 +1;
@@ -348,6 +384,7 @@ void Map::generateMap() {
 		if (axisRotation == 4) axisRotation = 0;
 	}
 }*/
+#endif
 
 bool Map::movePlayer(Directions dir) {
 	return moveObject(this->player, dir);

@@ -15,7 +15,7 @@ class Enemy;
 #define AMMO_SYM '-'
 #define LP_SYM '^'
 
-/*The max string lenght*/
+/*La lunghezza massima della stringa*/
 #define MAXSTRLEN 50
 
 //Ad ogni modo in ogni elemento (che é un oggetto dentro la cartella Model) c'é giá un'implementazione di default, quindi se non viene definita adesso non importa.
@@ -25,8 +25,8 @@ class Enemy;
 
 #define STARTING_AMMO 30
 
-//Moltiplicatore dei nemici
+//Moltiplicatore dei nemici per la generazone nella mappa
 #define MULT_ENEMIES 3
 
-//Moltiplicatore delle ammo
-#define MULT_AMMO 1
+//Moltiplicatore degli item totali nella mappa
+#define MULT_ITEM 2

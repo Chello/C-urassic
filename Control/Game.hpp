@@ -55,13 +55,26 @@ Import necessari, tutte le classi del model
 #include "../Model/Enemy.hpp"
 #endif
 
+#ifndef PLAYGROUND_H
+#define PLAYGROUND_H
+#include "../View/Playground.hpp"
+#endif
+
 class Game {
 public:
+	//Costruttore. Genera gli oggetti e inizializza le prime variabili del gioco.
 	Game();
-	
+	//Let's Play!
+	void start();
 
 private:
+	//Indica il livello a cui si é
+	int 		level;
+	//Indica se si sta giocando o se si é in game over
+	bool 		isPlaying;
+	//Puntatore alla mappa corrente
+	Map 		*currentMap;
+	//Puntatore al disegnatore del playground corrente
+	Playground	*view;
+
 };
-	
-#if 0
-#endif

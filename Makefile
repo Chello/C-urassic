@@ -1,17 +1,17 @@
-main: main.o Playground.o Map.o Playground.o Settings.o Player.o Item.o Enemy.o Game.o
-	g++ -g -o C-urassic main.o Game.o Playground.o Map.o Player.o Enemy.o Item.o Game.o -lm
+main: main.o Playground.o Map.o Settings.o Player.o Item.o Enemy.o Game.o
+	g++ -g -o C-urassic Game.o main.o Playground.o Map.o Player.o Enemy.o Item.o -lm
 
-main.o: Map.o Playground.o
+main.o: Game.o Settings.o 
 	g++ -g -c Control/main.cpp
 
-Game.o: Control/Game.cpp Control/Game.hpp Settings.o Player.o Item.o Enemy.o
+Game.o: Control/Game.cpp Control/Game.hpp Settings.o Player.o Item.o Enemy.o Playground.o
 	g++ -g -c Control/Game.cpp
 
 Settings.o: Control/Settings.hpp
 	g++ -g -c Control/Settings.hpp
 
-MapCharacter.o: Control/MapCharacter.hpp
-	g++ -g -c Control/MapCharacter.hpp
+#MapCharacter.o: Control/MapCharacter.hpp
+#	g++ -g -c Control/MapCharacter.hpp
 
 Map.o: Model/Map.cpp Model/Map.hpp  Model/Directions.hpp Model/ItemTypes.hpp Settings.o Player.o Enemy.o Item.o 
 	g++ -g -c Model/Map.cpp 

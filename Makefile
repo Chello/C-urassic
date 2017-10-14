@@ -4,7 +4,7 @@ main: main.o Playground.o Map.o Settings.o Player.o Item.o Enemy.o Game.o
 main.o: Game.o Settings.o 
 	g++ -g -c Control/main.cpp
 
-Game.o: Control/Game.cpp Control/Game.hpp Settings.o Player.o Item.o Enemy.o Playground.o
+Game.o: Control/Game.cpp Control/Game.cpp Settings.o Player.o Item.o Enemy.o Playground.o
 	g++ -g -c Control/Game.cpp
 
 Settings.o: Control/Settings.hpp
@@ -13,7 +13,7 @@ Settings.o: Control/Settings.hpp
 #MapCharacter.o: Control/MapCharacter.hpp
 #	g++ -g -c Control/MapCharacter.hpp
 
-Map.o: Model/Map.cpp Model/Map.hpp  Model/Directions.hpp Model/ItemTypes.hpp Settings.o Player.o Enemy.o Item.o 
+Map.o: Model/Map.cpp Model/Map.hpp Model/Directions.hpp Model/ItemTypes.hpp Settings.o Player.o Enemy.o Item.o 
 	g++ -g -c Model/Map.cpp 
 
 Playground.o: View/Playground.cpp View/Playground.hpp Settings.o Map.o

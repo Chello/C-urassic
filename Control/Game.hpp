@@ -1,9 +1,8 @@
-//Questa classe è inserita nel control e ha lo scopo di gestire la partita a seconda dei turni
-//Il main si occuperà solamete di lanciare la partita e di far terminare l'esecuzione
-
-/*
-Import necessari, tutte le classi del model
-*/
+#if 1
+#ifndef CSTRING_H
+#define CSTRING_H 
+#include <cstring>
+#endif
 
 #ifndef STDLIB_H
 #define STDLIB_H
@@ -15,9 +14,9 @@ Import necessari, tutte le classi del model
 #include <stdio.h>
 #endif
 
-#ifndef CSTRING_H
-#define CSTRING_H 
-#include <cstring>
+#ifndef CSTDLIB
+#define CSTDLIB
+#include <cstdlib>
 #endif
 
 #ifndef DIRECTIONS_H
@@ -33,11 +32,6 @@ Import necessari, tutte le classi del model
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "../Model/Player.hpp"
-#endif
-
-#ifndef CSTDLIB
-#define CSTDLIB
-#include <cstdlib>
 #endif
 
 #ifndef ITEMTYPES_H
@@ -60,6 +54,9 @@ Import necessari, tutte le classi del model
 #include "../View/Playground.hpp"
 #endif
 
+#endif
+
+#if 1
 class Game {
 public:
 	//Costruttore. Genera gli oggetti e inizializza le prime variabili del gioco.
@@ -78,3 +75,4 @@ private:
 	Playground	*view;
 
 };
+#endif

@@ -35,7 +35,8 @@ using namespace std;
 int main(int argc, char const *argv[]) {
 	srand(time(NULL));
 	Game *g = new Game();
-	g->start();
+	//g->start();
+	g->insertMoves();
 
 	return 0;
 }

@@ -10,9 +10,6 @@ Game.o: Control/Game.cpp Control/Game.cpp Settings.o Player.o Item.o Enemy.o Pla
 Settings.o: Control/Settings.hpp
 	g++ -g -c Control/Settings.hpp
 
-#MapCharacter.o: Control/MapCharacter.hpp
-#	g++ -g -c Control/MapCharacter.hpp
-
 Map.o: Model/Map.cpp Model/Map.hpp Model/Directions.hpp Model/ItemTypes.hpp Settings.o Player.o Enemy.o Item.o 
 	g++ -g -c Model/Map.cpp 
 

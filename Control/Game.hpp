@@ -5,7 +5,7 @@
 #endif
 
 #ifndef STDLIB_H
-#define STDLIB_H
+#define stdlibB_H
 #include <stdlib.h>
 #endif
 
@@ -63,8 +63,14 @@ public:
 	Game();
 	//Let's Play!
 	void start();
+	//
+	void insertMoves();
 
 private:
+	//Metodo che fa vincere il gioco.
+	void win();
+	//Avanzamento del livello di gioco
+	void levelUp();
 	//Indica il livello a cui si é
 	int 		level;
 	//Indica se si sta giocando o se si é in game over

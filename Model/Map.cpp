@@ -23,6 +23,21 @@ Map::Map(const char *presetFile) {
     this->generateMap(); 
 }
 
+Map::~Map() {
+	int i;
+	/*Distruzione di enemies*/
+	for (i = 0; i < this->numEnemies; i++){
+		delete this->enemies[i];
+	}
+	/*Distruzione di Portal*/
+	delete this->portal;
+	/*DIstruzione di Player*/
+	delete this->player;
+	/*Distruzione di Items*/
+	for (i = 0; i < this->numItems; i++) {
+		delete this->items[i];
+	}
+}
 
 void Map::getPreset(FILE *preset) {
 	bool hasLineEnded;

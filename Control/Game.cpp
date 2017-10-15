@@ -1,86 +1,87 @@
-#if 0
-
-#ifndef CSTRING_H
-#define CSTRING_H 
-#include <cstring>
-#endif
-
-#ifndef STDLIB_H
-#define STDLIB_H
-#include <stdlib.h>
-#endif
-
-#ifndef STDIO_H
-#define STDIO_H
-#include <stdio.h>
-#endif
-
-#ifndef CSTDLIB
-#define CSTDLIB
-#include <cstdlib>
-#endif
-
-#ifndef DIRECTIONS_H
-#define DIRECTIONS_H
-#include "../Model/Directions.hpp"
-#endif
-
-#ifndef SETTINGS_H
-#define SETTINGS_H
-#include "../Control/Settings.hpp"
-#endif
-
-#ifndef PLAYER_H
-#define PLAYER_H
-#include "../Model/Player.hpp"
-#endif
-
-#ifndef ITEMTYPES_H
-#define ITEMTYPES_H
-#include "../Model/ItemTypes.hpp"
-#endif
-
-#ifndef ITEM_H
-#define ITEM_H
-#include "../Model/Item.hpp"
-#endif
-
-#ifndef ENEMY_H
-#define ENEMY_H
-#include "../Model/Enemy.hpp"
-#endif
-
-#ifndef PLAYGROUND_H
-#define PLAYGROUND_H
-#include "../View/Playground.hpp"
-#endif
-#endif
-
 #ifndef GAME_H
 #define GAME_H
 #include "../Control/Game.hpp"
 #endif
 
-#if 0
-class Game {
-public:
-	//Costruttore. Genera gli oggetti e inizializza le prime variabili del gioco.
-	Game();
-	//Let's Play!
-	void start();
+void Game::win() {
 
-private:
-	//Indica il livello a cui si é
-	int 		level;
-	//Indica se si sta giocando o se si é in game over
-	bool 		isPlaying;
-	//Puntatore alla mappa corrente
-	Map 		*currentMap;
-	//Puntatore al disegnatore del playground corrente
-	Playground	*view;
+}
 
-};
-#endif
+void Game::levelUp() {
+
+}
+
+void Game::insertMoves(){
+	char moves[MAXSTRLEN];   //Importare settings.hpp per il define
+	
+	while (isPlaying) {
+		char messageText[MAXSTRLEN] = "";
+		Directions dir = NULL_DIR;
+		int i;
+		int count = 0;  // utilizzata nel while che chiede in input le mosse
+		bool mosse = true;
+		/*Reset dell'array di mosse "moves"*/
+		for (i = 0; i < MAXSTRLEN; i++) 
+			moves[i] = '\0';
+		
+		cout << "Please enter the next three moves: ";
+		cin >> moves;
+
+		if (moves[0] == 'q' || moves[0] == 'Q'){  // se la prima "mossa" inserita e q il gioco termina senza chiedere le altre due mosse
+			    this->isPlaying = false;
+				exit(0);
+		}
+
+		for (i = 0; i < MAX_INPUT_MOVE; i++) {
+			if (moves[i] == '\0')
+				mosse = false;
+		}
+		cout << moves[MAX_INPUT_MOVE+1];
+		if (moves[MAX_INPUT_MOVE] != '\0') {
+			mosse = false;
+		} 
+		if (!mosse) 
+			strcpy(messageText, "ERRORE: Solo tre mosse!");
+
+		while(count < MAX_INPUT_MOVE && mosse == true){
+			switch (moves[count]) {
+				case 'a':
+				case 'A':
+					dir = LEFT;
+					break;
+				case 's':
+				case 'S':
+					dir = DOWN;
+					break;
+				case 'd':
+				case 'D':
+					dir = RIGHT;
+					break;
+				case 'w':
+				case 'W':
+					dir = UP;
+					break;
+				case 'c': break;
+			//	case 'Q':
+			//		isPlaying = false;
+			//		exit(0);
+			//		break;    // il caso q viene gestino direttamente dopo aver preso in input le mosse
+				default:
+					strcpy(messageText, "Invalid key!");
+					break;
+			}  // chiude switch
+
+			if (this->currentMap->movePlayer(dir)) {
+			} else {
+				strcpy(messageText, "Invalid key!");
+			}
+
+			count++;
+			dir = NULL_DIR;
+		} // chiude secondo while
+		this->view->refresh(messageText);
+	} // chiude primo while
+}
 
 #if 1
 Game::Game() {
@@ -130,6 +131,7 @@ void Game::start() {
 				//We don't use 'q' because, while playing, this key could be pressed accidentally
 			case 'Q':
 				this->isPlaying = false;
+				delete this->currentMap;
 				exit(0);
 				break;
 			default:

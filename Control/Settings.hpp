@@ -30,3 +30,6 @@ class Enemy;
 
 //Moltiplicatore degli item totali nella mappa
 #define MULT_ITEM 2
+
+//Massimo numero di mosse ammissibili in input
+#define MAX_INPUT_MOVE 3

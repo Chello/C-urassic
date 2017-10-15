@@ -67,8 +67,9 @@ public:
 	void insertMoves();
 
 private:
-	//Metodo che fa vincere il gioco.
-	void win();
+	/*Metodo che fa terminare il gioco.
+	gameOver: true se si ha perso/terminato la partita, false se si ha vinto*/
+	void endGame(bool gameOver);
 	//Avanzamento del livello di gioco
 	void levelUp();
 	//Indica il livello a cui si é

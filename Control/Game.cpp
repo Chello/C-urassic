@@ -3,8 +3,11 @@
 #include "../Control/Game.hpp"
 #endif
 
-void Game::win() {
-
+void Game::endGame(bool gameOver) {
+	if (gameOver) 
+		cout << "Game Over!\n";
+	else cout << "You winner!\n";
+	exit(0);
 }
 
 void Game::levelUp() {
@@ -29,7 +32,8 @@ void Game::insertMoves(){
 
 		if (moves[0] == 'q' || moves[0] == 'Q'){  // se la prima "mossa" inserita e q il gioco termina senza chiedere le altre due mosse
 			    this->isPlaying = false;
-				exit(0);
+				mosse = false;
+				this->endGame(true);
 		}
 
 		for (i = 0; i < MAX_INPUT_MOVE; i++) {

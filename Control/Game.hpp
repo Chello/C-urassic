@@ -80,6 +80,8 @@ private:
 	Map 		*currentMap;
 	//Puntatore al disegnatore del playground corrente
 	Playground	*view;
+	//Il player di tutto il gioco
+	Player 		*player;
 
 };
 #endif

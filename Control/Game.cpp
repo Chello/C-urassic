@@ -65,19 +65,33 @@ void Game::insertMoves(){
 				case 'W':
 					dir = UP;
 					break;
-				case 'c': break;
-			//	case 'Q':
-			//		isPlaying = false;
-			//		exit(0);
-			//		break;    // il caso q viene gestino direttamente dopo aver preso in input le mosse
 				default:
 					strcpy(messageText, "Invalid key!");
 					break;
 			}  // chiude switch
-
+			#if 0
 			if (this->currentMap->movePlayer(dir) == EMPTY_SYM) {
 			} else {
 				strcpy(messageText, "Invalid key!");
+			}
+			#endif
+			switch (this->currentMap->movePlayer(dir)) {
+				case WALL_SYM:
+					break;
+				case AMMO_SYM:
+					this->player->ammo += ADD_AMMO;
+					break;
+				case LP_SYM:
+					this->player->lifePoints += ADD_LP;
+					break;
+				case PORTAL_SYM:
+					this->levelUp();
+				case EMPTY_SYM:
+					break;
+				default: //Se ha preso un nemico...
+					this->player->lifePoints = 0;
+					this->endGame(true);
+					break;
 			}
 
 			count++;
@@ -91,8 +105,12 @@ void Game::insertMoves(){
 Game::Game() {
 	this->isPlaying = true;
 	this->level = 1;
+
+	this->player = new Player();
+	this->player->ammo = STARTING_AMMO;
+	this->player->lifePoints = STARTING_LIFEPOINTS;
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
-	this->currentMap = new Map(4);
+	this->currentMap = new Map(4, this->player);
 
 	this->view = new Playground();
 

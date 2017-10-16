@@ -86,7 +86,7 @@ public:
 	int height, lenght;
 
 	/*Costruttore di classe. Inizia dal livello indicatogli come parametro a costruire una mappa*/
-	Map(int level);
+	Map(int level, Player *player);
 	/****DEPRECATO****
 	Class constructor
 	It loads the passed filemap. The filemap shoud have a size of 30x60 
@@ -96,7 +96,7 @@ public:
 	/*	Distruttore. Distrugge tutto.
 		Distrugge i seguenti oggetti: enemies, portal, items, player.*/
 	~Map();
-	/* 	Muove il player oppure un enemy.
+	/* 	Muove il player.
 		Ritorna EMPTY_SYM se il movimento é stato eseguito correttamente, 
 		ritorna invece il simpolo dell'oggetto 'pestato' altrimenti.
 			Se ha 'pestato' un Item, si piazza al posto dell'oggetto, cancellandolo
@@ -107,10 +107,12 @@ public:
 	Player* getPlayer();
 	/*Aumenta di livello e rigenera la mappa secondo il nuovo livello*/
 	void levelUp();
-	/*
-	This method makes move the specified object (with relative position) 
-	to the direction gave in 'dir'.
-	Returns true if the object has moved successfully, false otherwise.*/
+	/* Metodo che fa muovere, secondo la direzione indicata, il Player oppure un Enemy.
+	Richiede il player/enemy e la direzione in cui si deve muovere.
+	Ritorna EMPTY_SYM se il movimento é stato eseguito correttamente, 
+	ritorna invece il simpolo dell'oggetto 'pestato' altrimenti.
+			Se ha 'pestato' un Item, si piazza al posto dell'oggetto, cancellandolo
+			se ha 'pestato' qualcos'altro, non esegue la mossa*/
 	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
@@ -138,6 +140,10 @@ protected:
 	void getPreset(FILE *preset);
 	/*Inizializza la classe insieme al resto*/
 	void init();
+	/*Controlla se il carattere passato ammette un movimento oppure no.
+	Richiede il carattere da controllare.
+	Ritorna true se si puó muovere l'oggetto, false altrimenti.*/
+	bool canMove(char c);
 	/*Disegna una stanza, dandogli le dimensioni e la posizione nella matrice.
 		int xSize 	la dimensione del lato x
 		int ySize 	la dimensione del lato y

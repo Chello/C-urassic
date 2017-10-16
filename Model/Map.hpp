@@ -97,13 +97,21 @@ public:
 		Distrugge i seguenti oggetti: enemies, portal, items, player.*/
 	~Map();
 	/* 	Muove il player oppure un enemy.
-		Ritorna true se il movimento é avvenuto con successo, false altrimenti
+		Ritorna EMPTY_SYM se il movimento é stato eseguito correttamente, 
+		ritorna invece il simpolo dell'oggetto 'pestato' altrimenti.
+			Se ha 'pestato' un Item, si piazza al posto dell'oggetto, cancellandolo
+			se ha 'pestato' qualcos'altro, non esegue la mossa
 	*/
-	bool movePlayer(Directions dir);
+	char movePlayer(Directions dir);
 	/*Metodo che ritorna il player*/
 	Player* getPlayer();
 	/*Aumenta di livello e rigenera la mappa secondo il nuovo livello*/
 	void levelUp();
+	/*
+	This method makes move the specified object (with relative position) 
+	to the direction gave in 'dir'.
+	Returns true if the object has moved successfully, false otherwise.*/
+	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
 protected:
@@ -118,11 +126,6 @@ protected:
 
 	/*Il livello attuale della mappa*/
 	int 		level;
-	/*
-	This method makes move the specified object (with relative position) 
-	to the direction gave in 'dir'.
-	Returns true if the object has moved successfully, false otherwise.*/
-	bool moveObject(Player *mapObj, Directions dir);
 	/*
 	This method cleans the whole matrix map.
 	It signs 0 evrywhere. */

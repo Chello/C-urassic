@@ -401,7 +401,7 @@ void Map::generateMap() {
 }*/
 #endif
 
-bool Map::movePlayer(Directions dir) {
+char Map::movePlayer(Directions dir) {
 	return moveObject(this->player, dir);
 }
 
@@ -413,7 +413,7 @@ void Map::cleanMatrix() {
 	}
 }
 
-bool Map::moveObject(Player *mapObj, Directions dir) {
+char Map::moveObject(Player *mapObj, Directions dir) {
 	int *l, *h;
 	l = &(mapObj->lenght);
 	h = &(mapObj->height);
@@ -426,8 +426,8 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 
 				(*h)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return true;
-			}
+				return EMPTY_SYM;
+			} else return matrix[(*h)-1][(*l)];
 		break;
 		case DOWN:
 			if (matrix[(*h) +1][(*l)] == EMPTY_SYM) {
@@ -437,8 +437,8 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 
 				(*h)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return true;
-			}
+				return EMPTY_SYM;
+			} else return matrix[(*h) +1][(*l)];
 			break;
 		case LEFT:
 			if (matrix[(*h)][(*l) -1] == EMPTY_SYM) {
@@ -448,8 +448,8 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 
 				(*l)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return true;
-			}
+				return EMPTY_SYM;
+			} else return matrix[(*h)][(*l) -1];
 			break;
 		case RIGHT:
 			if (matrix[(*h)][(*l) +1] == EMPTY_SYM) {
@@ -459,12 +459,12 @@ bool Map::moveObject(Player *mapObj, Directions dir) {
 
 				(*l)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return true;
-			}
+				return EMPTY_SYM;
+			} else return matrix[(*h)][(*l) +1];
 			break;
-		default: return false;
+		default: return '\0';
 	}
-	return false;
+	return '\0';
 }
 
 Player* Map::getPlayer() {

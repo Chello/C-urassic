@@ -75,7 +75,7 @@ void Game::insertMoves(){
 					break;
 			}  // chiude switch
 
-			if (this->currentMap->movePlayer(dir)) {
+			if (this->currentMap->movePlayer(dir) == EMPTY_SYM) {
 			} else {
 				strcpy(messageText, "Invalid key!");
 			}

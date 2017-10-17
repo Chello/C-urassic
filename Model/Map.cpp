@@ -32,8 +32,6 @@ Map::~Map() {
 	}
 	/*Distruzione di Portal*/
 	delete this->portal;
-	/*DIstruzione di Player*/
-	delete this->player;
 	/*Distruzione di Items*/
 	for (i = 0; i < this->numItems; i++) {
 		delete this->items[i];

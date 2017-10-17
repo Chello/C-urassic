@@ -11,7 +11,11 @@ void Game::endGame(bool gameOver) {
 }
 
 void Game::levelUp() {
-
+	this->level++;
+	if (this->level > 6)
+		this->endGame(false);
+	delete this->currentMap;
+	this->currentMap = new Map(this->level, (this->player));
 }
 
 void Game::insertMoves(){
@@ -86,6 +90,8 @@ void Game::insertMoves(){
 					break;
 				case PORTAL_SYM:
 					this->levelUp();
+					mosse = false;
+					break;
 				case EMPTY_SYM:
 					break;
 				default: //Se ha preso un nemico...
@@ -110,7 +116,7 @@ Game::Game() {
 	this->player->ammo = STARTING_AMMO;
 	this->player->lifePoints = STARTING_LIFEPOINTS;
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
-	this->currentMap = new Map(4, this->player);
+	this->currentMap = new Map(this->level, this->player);
 
 	this->view = new Playground();
 
@@ -120,7 +126,7 @@ Game::Game() {
 	this->view->refresh();
 }
 #endif
-#if 1
+#if 0
 void Game::start() { 
 	while (this->isPlaying) {
 		char input;

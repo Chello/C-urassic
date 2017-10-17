@@ -12,8 +12,8 @@ void Game::endGame(bool gameOver) {
 
 void Game::levelUp() {
 	this->level++;
-	if (this->level > 6)
-		this->endGame(false);
+	if (this->level > 6) //Se abbiamo raggiunto il livello 6 e l'abbiamo superato
+		this->endGame(false);//Vinci
 	delete this->currentMap;
 	this->currentMap = new Map(this->level, (this->player));
 }

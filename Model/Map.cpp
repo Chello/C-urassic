@@ -106,6 +106,19 @@ void Map::generateMap() {
 
 		this->drawRoom(xSize, ySize, x, y, dir);
 
+		/*############## POSIZIONAMENTO PLAYER ##############*/
+		if (i == 0) {
+			this->matrix[this->height -2][1] = PLAYER_SYM;
+			/*this->player = new Player(
+				&matrix[this->height -2][1], 
+				this->height -2, 
+				1, 
+				STARTING_LIFEPOINTS, 
+				STARTING_AMMO);*/
+			this->player->height = this->height -2;
+			this->player->lenght = 1;
+			this->player->obj = &matrix[this->height -2][1];
+		}
 		/*############## GENERAZIONE NEMICI ##############*/
 		for (j = 0; j < MULT_ENEMIES ; j++){
 			int xEnemy = 1 + x + rand() % (xSize -2);
@@ -167,19 +180,6 @@ void Map::generateMap() {
 			dir = UP;
 		}
 
-		/*############## POSIZIONAMENTO PLAYER ##############*/
-		if (i == 0) {
-			this->matrix[this->height -2][1] = PLAYER_SYM;
-			/*this->player = new Player(
-				&matrix[this->height -2][1], 
-				this->height -2, 
-				1, 
-				STARTING_LIFEPOINTS, 
-				STARTING_AMMO);*/
-			this->player->height = this->height -2;
-			this->player->lenght = 1;
-			this->player->obj = &matrix[this->height -2][1];
-		}
 
 	}
 
@@ -193,7 +193,7 @@ void Map::generateMap() {
 		xPortal = this->lenght -2;
 		yPortal = this->height -2;
 	} else if (i > 4) {
-		xPortal = this->lenght - ((xSize) * (i - 2));
+		xPortal = this->lenght - ((xSize) * (i - 3));
 		yPortal = this->height -2;
 	}
 

@@ -116,6 +116,8 @@ public:
 	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
+	/*Ritorna un nemico passandogli come parametro il suo nome/rappresentazone in mappa. */
+	Enemy* getEnemyByName(char name);
 protected:
 	/*Puntatore al giocatore*/
 	Player 	*player;

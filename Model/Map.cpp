@@ -3,8 +3,9 @@
 #include "../Model/Map.hpp"
 #endif
 
-Map::Map(int level) {
+Map::Map(int level, Player *player) {
 	this->init();
+	this->player = player;
 	this->level = level;
 	this->generateMap();
 }
@@ -168,15 +169,18 @@ void Map::generateMap() {
 			dir = UP;
 		}
 
-		/*############## GENERAZIONE PLAYER ##############*/
+		/*############## POSIZIONAMENTO PLAYER ##############*/
 		if (i == 0) {
 			this->matrix[this->height -2][1] = PLAYER_SYM;
-			this->player = new Player(
+			/*this->player = new Player(
 				&matrix[this->height -2][1], 
 				this->height -2, 
 				1, 
 				STARTING_LIFEPOINTS, 
-				STARTING_AMMO);
+				STARTING_AMMO);*/
+			this->player->height = this->height -2;
+			this->player->lenght = 1;
+			this->player->obj = &matrix[this->height -2][1];
 		}
 
 	}
@@ -415,56 +419,70 @@ void Map::cleanMatrix() {
 
 char Map::moveObject(Player *mapObj, Directions dir) {
 	int *l, *h;
+	char toSub;
 	l = &(mapObj->lenght);
 	h = &(mapObj->height);
 	switch (dir){
 		case UP:
-			if (matrix[(*h)-1][(*l)] == EMPTY_SYM) {
+			toSub = matrix[(*h)-1][(*l)];
+			if (this->canMove(toSub)) {
 
 				matrix[(*h)-1][(*l)] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*h)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return EMPTY_SYM;
-			} else return matrix[(*h)-1][(*l)];
+			}
 		break;
 		case DOWN:
-			if (matrix[(*h) +1][(*l)] == EMPTY_SYM) {
+			toSub = matrix[(*h) +1][(*l)];
+			if (this->canMove(toSub)) {
 
 				matrix[(*h) +1][(*l)] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*h)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return EMPTY_SYM;
-			} else return matrix[(*h) +1][(*l)];
+			}
 			break;
 		case LEFT:
-			if (matrix[(*h)][(*l) -1] == EMPTY_SYM) {
+			toSub = matrix[(*h)][(*l) -1];
+			if (this->canMove(toSub)) {
 
 				matrix[(*h)][(*l) -1] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*l)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return EMPTY_SYM;
-			} else return matrix[(*h)][(*l) -1];
+			}
 			break;
 		case RIGHT:
-			if (matrix[(*h)][(*l) +1] == EMPTY_SYM) {
+			toSub = matrix[(*h)][(*l) +1];
+			if (this->canMove(toSub)) {
 
 				matrix[(*h)][(*l) +1] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*l)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
-				return EMPTY_SYM;
-			} else return matrix[(*h)][(*l) +1];
+			}
 			break;
 		default: return '\0';
 	}
-	return '\0';
+	return toSub;
+}
+
+bool Map::canMove(char c) {
+	switch (c) {
+			case EMPTY_SYM:
+			case AMMO_SYM:
+			case LP_SYM:
+				return true;
+			case WALL_SYM:
+			case PORTAL_SYM: 
+			default:
+				return false;
+	}
 }
 
 Player* Map::getPlayer() {

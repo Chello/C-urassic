@@ -33,3 +33,9 @@ class Enemy;
 
 //Massimo numero di mosse ammissibili in input
 #define MAX_INPUT_MOVE 3
+
+//Ammo che si aggiungono allo scontro con un AMMO_SYM
+#define ADD_AMMO 30
+
+//LP che si aggiungono allo scontro con un LP_SYM
+#define ADD_LP 50

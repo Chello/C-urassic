@@ -18,15 +18,18 @@
 #include "../Control/Settings.hpp"
 #endif
 
+#if 1
 #ifndef MAP_H
 #define MAP_H
 #include "Map.hpp"
 #endif
 #endif
 
+#if 0
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "Enemy.hpp"
+#endif
 #endif
 
 using namespace std;
@@ -39,6 +42,8 @@ public:
 	*/
 	Player();
 	Player(char *obj, int height, int lenght, int lifePoints, int ammo);
+
+	void shoot(Map *currentMap, char s);
 	//shoot(char *obj);
 	/*Il riferimento all'oggetto della mappa*/
 	char *obj;

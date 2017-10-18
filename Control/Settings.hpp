@@ -3,6 +3,8 @@
 //Sto definendo tutte le classi che dipendono da altre
 class Map;
 class Enemy;
+//class Player;
+
 //Qua si definiscono alcune impostazioni per l'intero gioco.
 
 //Ad esempio i simboli dei vari elementi del tabellone

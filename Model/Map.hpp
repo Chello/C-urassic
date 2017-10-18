@@ -1,3 +1,13 @@
+#ifndef CTIME_H
+#define CTIME_H
+#include <ctime>
+#endif
+
+#ifndef CSTDLIB
+#define CSTDLIB
+#include <cstdlib>
+#endif
+
 #ifndef STDLIB_H
 #define STDLIB_H
 #include <stdlib.h>
@@ -28,15 +38,6 @@
 #include "Player.hpp"
 #endif
 
-#ifndef CTIME_H
-#define CTIME_H
-#include <ctime>
-#endif
-
-#ifndef CSTDLIB
-#define CSTDLIB
-#include <cstdlib>
-#endif
 
 #ifndef ITEMTYPES_H
 #define ITEMTYPES_H
@@ -48,9 +49,11 @@
 #include "Item.hpp"
 #endif
 
+#if 1
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "Enemy.hpp"
+#endif
 #endif
 
 //Dimensioni massime che la mappa puó assumere.
@@ -70,6 +73,8 @@
 #define LEN_OFFSET 2
 
 using namespace std;
+
+class Player;
 
 class Map {
 public:

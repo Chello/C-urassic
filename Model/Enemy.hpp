@@ -18,9 +18,11 @@
 #include "../Control/Settings.hpp"
 #endif
 
+#if 1
 #ifndef PLAYER_H
 #define PLAYER_H 
 #include "Player.hpp"
+#endif
 #endif
 
 #if 1

@@ -491,7 +491,7 @@ Enemy** Map::getEnemies() {
 	return this->enemies;
 }
 
-void Map::IA(Map *currentMap, Enemy **enemy) {
+void Map::IA(Enemy **enemy) {
 	//prende la posizione di P1
 	int Px = getPlayer()->lenght;
 	int Py = getPlayer()->height;
@@ -501,9 +501,13 @@ void Map::IA(Map *currentMap, Enemy **enemy) {
 	int x = enemy[j]->lenght;
 	int y = enemy[j]->height;
 	int i = 0;
+	int xory;
 	for (; i < MAX_INPUT_MOVE; i++) {
+		//pre-controllo di mossa su x o y
+		if (Px == x) xory = 1;
+		else if (Py == y) xory = 0;
+		else xory = rand() % 2; 	
 		//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
-		int xory = rand() % 2;
 		if (xory == 0) {
 			//condizione
 			if (x < Px) {
@@ -529,7 +533,7 @@ void Map::IA(Map *currentMap, Enemy **enemy) {
 				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
 				else moveObject(enemy[j], NULL_DIR);
 			}
-		}
+		}	
 	}
 }
 }

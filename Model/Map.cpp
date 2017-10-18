@@ -531,5 +531,14 @@ void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
 			}
 		}
 	}
-	}	
+}
+}
+
+Enemy* Map::getEnemyByName(char name) {
+	int i;
+	for (i = 0; i < this->numEnemies; i++){
+		if (*(this->enemies[i]->obj) == name)
+			return this->enemies[i];
+	}
+	return NULL;
 }

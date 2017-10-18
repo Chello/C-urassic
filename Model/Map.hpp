@@ -118,6 +118,8 @@ public:
 	Enemy** getEnemies();
 	/*Metodo che muove i nemici*/
 	void AI(Map *currentMap, Enemy **enemy, int i, int count);
+	/*Ritorna un nemico passandogli come parametro il suo nome/rappresentazone in mappa. */
+	Enemy* getEnemyByName(char name);
 protected:
 	/*Puntatore al giocatore*/
 	Player 	*player;

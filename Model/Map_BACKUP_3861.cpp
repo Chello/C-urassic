@@ -491,49 +491,49 @@ Enemy** Map::getEnemies() {
 	return this->enemies;
 }
 
+<<<<<<< HEAD
 void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
 	//prende la posizione di P1
 	int Px = getPlayer()->lenght;
 	int Py = getPlayer()->height;
 
-	for (;j < numEnemies; j++) {
+	for (j < numEnemies; j++) {
 	//prende la posizione di E #i
-	int x = enemy[j]->lenght;
-	int y = enemy[j]->height;
+	int x = currentMap->getEnemies()->lenght;
+	int y = currentMap->getEnemies()->height;
 
-	for (;i < MAX_INPUT_MOVE; i++) {
+	for (i < 3; i++) {
 		//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
 		int xory = rand() % 2;
 		if (xory == 0) {
 			//condizione
 			if (x < Px) {
 				//se non ci sono ostacoli il nemico si muove verso destra
-				if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
+				if (moveObject(this->enemy[count], RIGHT)) moveObject(this->enemy[count], RIGHT);
 				//se non ci sono ostacoli il nemico si muove verso sinistra 
-				else if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
+				else if (moveObject(this->enemy[count], LEFT)) moveObject(this->enemy[count], LEFT);
 				//c'erano ostacoli sia a dx sia a sx, proviamo 
 				else IA(currentMap, enemy, i, j);
 			} else {
-				if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				else if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
+				if (moveObject(this->enemy[count], LEFT)) moveObject(this->enemy[count], LEFT);
+				else if (moveObject(this->enemy[count], RIGHT)) moveObject(this->enemy[count], RIGHT);
 				else IA(currentMap, enemy, i, j);
 			}
 		} else {
 			if (y < Py) {
-				if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				else if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
+				if (moveObject(this->enemy[count], DOWN)) moveObject(this->enemy[count], DOWN);
+				else if (moveObject(this->enemy[count], UP)) moveObject(this->enemy[count], UP);
 				else IA(currentMap, enemy, i, j);
 			}
 			else {
-				if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
+				if (moveObject(this->enemy[count], UP)) moveObject(this->enemy[count], UP);
+				else if (moveObject(this->enemy[count], DOWN)) moveObject(this->enemy[count], DOWN);
 				else IA(currentMap, enemy, i, j);
 			}
 		}
 	}
-}
-}
-
+	}	
+=======
 Enemy* Map::getEnemyByName(char name) {
 	int i;
 	for (i = 0; i < this->numEnemies; i++){
@@ -541,4 +541,5 @@ Enemy* Map::getEnemyByName(char name) {
 			return this->enemies[i];
 	}
 	return NULL;
+>>>>>>> 23b74985522ed160da762594f244b9afe532a6dd
 }

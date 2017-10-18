@@ -96,6 +96,7 @@ void Game::insertMoves(){
 					break;
 				default: //Se ha preso un nemico...
 					this->player->lifePoints = 0;
+					this->view->refresh("You lose!");			
 					this->endGame(true);
 					break;
 			}

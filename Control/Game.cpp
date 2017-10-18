@@ -106,7 +106,7 @@ void Game::insertMoves(){
 		} // chiude secondo while
 		this->view->refresh(messageText);
 		//turno dei nemici
-		this->currentMap->IA(this->currentMap, this->enemies, 0, 0);
+		this->currentMap->IA(this->currentMap, this->enemies);
 	} // chiude primo while
 }
 

@@ -18,6 +18,11 @@
 #include "../Control/Settings.hpp"
 #endif
 
+#ifndef DIRECTIONS_H
+#define DIRECTIONS_H
+#include "../Model/Directions.hpp" 
+#endif
+
 #if 0
 #ifndef ENEMY_H
 #define ENEMY_H
@@ -35,9 +40,9 @@ public:
 	*/
 	Player();
 	Player(char *obj, int height, int lenght, int lifePoints, int ammo);
-
-	void shoot(Map *currentMap, char s);
-	//shoot(char *obj);
+	/*Metodo che spara in una direzione, datogli la direzione.
+	Ritorna true se é riuscito a sparare correttamente, false se non ha sparato perché non aveva abbastanza ammo a disposizione*/
+	bool shoot(Map *currentMap, Directions dir);
 	/*Il riferimento all'oggetto della mappa*/
 	char *obj;
 	/*Posizone assoluta nella mappa*/

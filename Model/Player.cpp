@@ -14,25 +14,26 @@ Player::Player(char *obj, int height, int lenght, int lifePoints, int ammo) {
 	this->ammo = ammo;
 }
 
-void Player::shoot(Map *currentMap, char s){
+bool Player::shoot(Map *currentMap, Directions dir){
+	//Se non hai ammo ritorna false
+	if(this->ammo <= 0) 
+		return false;
+
+	this->ammo--;
 	int y = this->height;
 	int x = this->lenght;
 	do {
-		switch(s){
-			case 'j':
-			case 'J':
+		switch(dir){
+			case LEFT:
 				x--;
 				break;
-			case 'i':
-			case 'I':
+			case UP:
 				y--;
 				break;
-			case 'l':
-			case 'L':
+			case RIGHT:
 				x++;
 				break;
-			case 'k':
-			case 'K':
+			case DOWN:
 				y++;
 				break;
 			default:break;	
@@ -56,6 +57,7 @@ void Player::shoot(Map *currentMap, char s){
 			}
 			break;
 	}
+	return true;
 }
 
 

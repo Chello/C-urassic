@@ -27,7 +27,7 @@ void Game::insertMoves(){
 		int i;
 		int count = 0;  // utilizzata nel while che chiede in input le mosse
 		bool mosse = true;
-		bool haveToMove = true; //Indica se bisogna fare una mossa (vero) oppure se bisogna sparare (falso)
+		bool haveToMove; //Indica se bisogna fare una mossa (vero) oppure se bisogna sparare (falso)
 
 		/*Reset dell'array di mosse "moves"*/
 		for (i = 0; i < MAXSTRLEN; i++) 
@@ -58,37 +58,41 @@ void Game::insertMoves(){
 				case 'a':
 				case 'A':
 					dir = LEFT;
+					haveToMove = true;
 					break;
 				case 's':
 				case 'S':
 					dir = DOWN;
+					haveToMove = true;
 					break;
 				case 'd':
 				case 'D':
 					dir = RIGHT;
+					haveToMove = true;
 					break;
 				case 'w':
 				case 'W':
 					dir = UP;
+					haveToMove = true;
 					break;
            		case 'j':
 				case 'J':
-					this->player->shoot(this->currentMap,'j');
+					dir = LEFT;
 					haveToMove = false;
 					break;
 				case 'i':
 				case 'I':
-					this->player->shoot(this->currentMap,'i');
+					dir = UP;
 					haveToMove = false;
 					break;
 				case 'l':
 				case 'L':
-					this->player->shoot(this->currentMap,'l');
+					dir = RIGHT;
 					haveToMove = false;
 					break;
 				case 'k':
 				case 'K':
-					this->player->shoot(this->currentMap,'k');
+					dir = DOWN;
 					haveToMove = false;	
 					break;
 				default:
@@ -97,6 +101,7 @@ void Game::insertMoves(){
 			}  // chiude switch
 
 			if (haveToMove) {
+				/*#################### CI SI MUOVE ####################*/
 				switch (this->currentMap->movePlayer(dir)) {
 					case WALL_SYM:
 						break;
@@ -119,6 +124,10 @@ void Game::insertMoves(){
 						this->endGame(true);
 						break;
 				}
+			} else {
+				/*#################### SI SPARA ####################*/
+				if (!this->player->shoot(this->currentMap, dir))
+					strcpy(messageText, "You have not enough ammo!");
 			}
 
 			count++;

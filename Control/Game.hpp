@@ -82,6 +82,8 @@ private:
 	Playground	*view;
 	//Il player di tutto il gioco
 	Player 		*player;
+	//Nemici
+	Enemy 		**enemies;
 
 };
 #endif

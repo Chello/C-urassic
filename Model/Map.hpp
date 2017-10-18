@@ -116,6 +116,8 @@ public:
 	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
+	/*Metodo che muove i nemici*/
+	void AI(Map *currentMap, Enemy **enemy, int i, int count);
 protected:
 	/*Puntatore al giocatore*/
 	Player 	*player;

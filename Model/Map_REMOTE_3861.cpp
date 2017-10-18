@@ -491,49 +491,6 @@ Enemy** Map::getEnemies() {
 	return this->enemies;
 }
 
-void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
-	//prende la posizione di P1
-	int Px = getPlayer()->lenght;
-	int Py = getPlayer()->height;
-
-	for (;j < numEnemies; j++) {
-	//prende la posizione di E #i
-	int x = enemy[j]->lenght;
-	int y = enemy[j]->height;
-	int i = 0;
-	for (;i < MAX_INPUT_MOVE; i++) {
-		//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
-		int xory = rand() % 2;
-		if (xory == 0) {
-			//condizione
-			if (x < Px) {
-				//se non ci sono ostacoli il nemico si muove verso destra
-				if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
-				//se non ci sono ostacoli il nemico si muove verso sinistra 
-				else if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				//c'erano ostacoli sia a dx sia a sx, proviamo 
-				//else IA(currentMap, enemy, i, j);
-			} else {
-				if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				else if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
-				//else IA(currentMap, enemy, i, j);
-			}
-		} else {
-			if (y < Py) {
-				if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				else if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				//else IA(currentMap, enemy, i, j);
-			}
-			else {
-				if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				//else IA(currentMap, enemy, i, j);
-			}
-		}
-	}
-}
-}
-
 Enemy* Map::getEnemyByName(char name) {
 	int i;
 	for (i = 0; i < this->numEnemies; i++){

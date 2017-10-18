@@ -109,6 +109,7 @@ void Game::insertMoves(){
 					break;
 				default: //Se ha preso un nemico...
 					this->player->lifePoints = 0;
+					this->view->refresh("You lose!");			
 					this->endGame(true);
 					break;
 			}
@@ -117,6 +118,8 @@ void Game::insertMoves(){
 			dir = NULL_DIR;
 		} // chiude secondo while
 		this->view->refresh(messageText);
+		//turno dei nemici
+		this->currentMap->IA(this->currentMap, this->enemies, 0, 0);
 	} // chiude primo while
 }
 
@@ -130,6 +133,8 @@ Game::Game() {
 	this->player->lifePoints = STARTING_LIFEPOINTS;
 	//Istanzio una nuova mappa, e gli passo il file del livello 1 (che é contenuto in 'Map_Presets')
 	this->currentMap = new Map(this->level, this->player);
+	//Nemici 
+	enemies = this->currentMap->getEnemies();
 
 	this->view = new Playground();
 

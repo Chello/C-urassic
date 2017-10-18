@@ -17,7 +17,7 @@ Player::Player(char *obj, int height, int lenght, int lifePoints, int ammo) {
 void Player::shoot(Map *currentMap, char s){
 	int y = this->height;
 	int x = this->lenght;
-	while(currentMap->matrix[y][x] == EMPTY_SYM){
+	do {
 		switch(s){
 			case 'j':
 			case 'J':
@@ -36,8 +36,8 @@ void Player::shoot(Map *currentMap, char s){
 				y++;
 				break;
 			default:break;	
-		}
-	}
+		} 
+	} while(currentMap->matrix[y][x] == EMPTY_SYM);
 
 	switch(currentMap->matrix[y][x]){
 		case WALL_SYM:

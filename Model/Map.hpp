@@ -117,7 +117,7 @@ public:
 	Ritorna EMPTY_SYM se il movimento é stato eseguito correttamente, 
 	ritorna invece il simpolo dell'oggetto 'pestato' altrimenti.
 			Se ha 'pestato' un Item, si piazza al posto dell'oggetto, cancellandolo
-			se ha 'pestato' qualcos'altro, non esegue la mossa*/
+			se ha 'pestato' qualcos'altro, non esegue la mossa.*/
 	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();

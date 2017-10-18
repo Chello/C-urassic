@@ -18,13 +18,6 @@
 #include "../Control/Settings.hpp"
 #endif
 
-#if 1
-#ifndef MAP_H
-#define MAP_H
-#include "Map.hpp"
-#endif
-#endif
-
 #if 0
 #ifndef ENEMY_H
 #define ENEMY_H
@@ -54,3 +47,10 @@ public:
 	/*Ammo for the player*/
 	int ammo;
 };
+
+#if 1
+#ifndef MAP_H
+#define MAP_H
+#include "Map.hpp"
+#endif
+#endif

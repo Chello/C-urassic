@@ -82,8 +82,9 @@ void Playground::refresh(char *messageText) {
 }
 
 void Playground::addSpaces(char *c) {
-	//Calculate how much spaces to add at left and right
-	int i, spacesLR = (LEFT_BORDER - strlen(c)) /2;;
+	//Calcola lo spazio da dedicare alle informazioni sul lato sinistro della mappa
+	int i;
+	int spacesLR = (LEFT_BORDER - strlen(c)) /2;;
         
 	char cc[LEFT_BORDER];
 	char spc[spacesLR+1]; 
@@ -96,5 +97,7 @@ void Playground::addSpaces(char *c) {
 	spc[spacesLR] = '\0';
 	strcpy(cc, c);
 	sprintf(c, "%s%s%s", spc, cc, spc);
+	if (strlen(c) == (LEFT_BORDER -1)) 
+		sprintf(c, "%s ", c);
 
 }

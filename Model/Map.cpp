@@ -500,7 +500,7 @@ void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
 	//prende la posizione di E #i
 	int x = enemy[j]->lenght;
 	int y = enemy[j]->height;
-
+	int i = 0;
 	for (;i < MAX_INPUT_MOVE; i++) {
 		//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
 		int xory = rand() % 2;
@@ -512,22 +512,22 @@ void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
 				//se non ci sono ostacoli il nemico si muove verso sinistra 
 				else if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
 				//c'erano ostacoli sia a dx sia a sx, proviamo 
-				else IA(currentMap, enemy, i, j);
+				//else IA(currentMap, enemy, i, j);
 			} else {
 				if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
 				else if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
-				else IA(currentMap, enemy, i, j);
+				//else IA(currentMap, enemy, i, j);
 			}
 		} else {
 			if (y < Py) {
 				if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
 				else if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				else IA(currentMap, enemy, i, j);
+				//else IA(currentMap, enemy, i, j);
 			}
 			else {
 				if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
 				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				else IA(currentMap, enemy, i, j);
+				//else IA(currentMap, enemy, i, j);
 			}
 		}
 	}

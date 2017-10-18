@@ -16,7 +16,7 @@ Map.o: Model/Map.cpp Model/Map.hpp Model/Directions.hpp Model/ItemTypes.hpp Sett
 Playground.o: View/Playground.cpp View/Playground.hpp Settings.o Map.o
 	g++ -g -c View/Playground.cpp
 
-Player.o: Model/Player.cpp Model/Player.hpp Settings.o
+Player.o: Model/Player.cpp Model/Player.hpp Settings.o Map.o Enemy.o
 	g++ -g -c Model/Player.cpp
 
 Item.o: Model/Item.cpp Model/Item.hpp Settings.o Model/Directions.hpp Model/ItemTypes.hpp

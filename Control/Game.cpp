@@ -69,6 +69,19 @@ void Game::insertMoves(){
 				case 'W':
 					dir = UP;
 					break;
+           		case 'j':
+				case 'J':
+					this->player->shoot(this->currentMap,'j');
+				case 'i':
+				case 'I':
+					this->player->shoot(this->currentMap,'i');
+				case 'l':
+				case 'L':
+					this->player->shoot(this->currentMap,'l');
+				case 'k':
+				case 'K':
+					this->player->shoot(this->currentMap,'k');	
+
 				default:
 					strcpy(messageText, "Invalid key!");
 					break;

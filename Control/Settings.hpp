@@ -39,3 +39,6 @@ class Enemy;
 
 //LP che si aggiungono allo scontro con un LP_SYM
 #define ADD_LP 50
+
+//LP che vengono tolti ad un nemico se colpito dallo sparo
+#define SHOOT_DAMAGE 15

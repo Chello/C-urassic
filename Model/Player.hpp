@@ -18,6 +18,17 @@
 #include "../Control/Settings.hpp"
 #endif
 
+#ifndef MAP_H
+#define MAP_H
+#include "Map.hpp"
+#endif
+#endif
+
+#ifndef ENEMY_H
+#define ENEMY_H
+#include "Enemy.hpp"
+#endif
+
 using namespace std;
 
 class Player {
@@ -28,6 +39,7 @@ public:
 	*/
 	Player();
 	Player(char *obj, int height, int lenght, int lifePoints, int ammo);
+	//shoot(char *obj);
 	/*Il riferimento all'oggetto della mappa*/
 	char *obj;
 	/*Posizone assoluta nella mappa*/

@@ -51,7 +51,7 @@ void Game::insertMoves(){
 			mosse = false;
 		} 
 		if (!mosse) 
-			strcpy(messageText, "ERRORE: Solo tre mosse!");
+			strcpy(messageText, "ERRORE: Inserire tre mosse!");
 
 		while(count < MAX_INPUT_MOVE && mosse == true){
 			switch (moves[count]) {
@@ -97,10 +97,11 @@ void Game::insertMoves(){
 					break;
 				default:
 					strcpy(messageText, "Invalid key!");
+					mosse = false;
 					break;
 			}  // chiude switch
 
-			if (haveToMove) {
+			if (haveToMove && mosse) {
 				/*#################### CI SI MUOVE ####################*/
 				switch (this->currentMap->movePlayer(dir)) {
 					case WALL_SYM:
@@ -120,11 +121,10 @@ void Game::insertMoves(){
 					default: //Se ha preso un nemico...
 						this->player->lifePoints = 0;
 						strcpy(messageText, "You lose!");	
-						this->view->refresh(messageText);			
-						this->endGame(true);
+						//this->view->refresh(messageText);			
 						break;
 				}
-			} else {
+			} if (!haveToMove && mosse) {
 				/*#################### SI SPARA ####################*/
 				if (!this->player->shoot(this->currentMap, dir))
 					strcpy(messageText, "You have not enough ammo!");
@@ -133,9 +133,22 @@ void Game::insertMoves(){
 			count++;
 			dir = NULL_DIR;
 		} // chiude secondo while
+		//turno dei nemici, se non bisogna passare di livello
+		if (mosse) { //Se ancora il gioco é buono
+			//Avvia l'intelligenza artificiale dei nemici
+			char killer = this->currentMap->IA();
+			//Se si ha perso...
+			if (killer != '\0') {
+				this->player->lifePoints = 0;
+				//Scrivi il messaggio di perdita in attesa della chiusura del gioco
+				sprintf(messageText, "%c has killed you!", killer);
+			}
+		}
+		//Rinfresco
 		this->view->refresh(messageText);
-		//turno dei nemici
-		this->currentMap->IA(this->currentMap, this->enemies, 0, 0);
+		//Se hai perso fai finire il gioco
+		if (this->player->lifePoints <= 0) 
+			this->endGame(true);
 	} // chiude primo while
 }
 

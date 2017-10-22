@@ -121,8 +121,10 @@ public:
 	char moveObject(Player *mapObj, Directions dir);
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
-	/*Metodo che muove i nemici*/
-	void IA(Map *currentMap, Enemy **enemy, int i, int j);
+	/*Metodo che muove i nemici tramite l'intelligenza artificiale.
+	Ritorna il carattere dell'uccisore del player nel caso sia stato ucciso
+	'\0' altrimenti*/
+	char IA();
 	/*Ritorna un nemico passandogli come parametro il suo nome/rappresentazone in mappa. */
 	Enemy* getEnemyByName(char name);
 protected:

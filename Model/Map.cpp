@@ -491,47 +491,79 @@ Enemy** Map::getEnemies() {
 	return this->enemies;
 }
 
-void Map::IA(Map *currentMap, Enemy **enemy, int i, int j) {
-	//prende la posizione di P1
+char Map::IA() {
+	//prende la posizione del player
+	int i;
+	int j;
 	int Px = getPlayer()->lenght;
 	int Py = getPlayer()->height;
-
-	for (;j < numEnemies; j++) {
-	//prende la posizione di E #i
-	int x = enemy[j]->lenght;
-	int y = enemy[j]->height;
-	int i = 0;
-	for (;i < MAX_INPUT_MOVE; i++) {
-		//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
-		int xory = rand() % 2;
-		if (xory == 0) {
-			//condizione
-			if (x < Px) {
-				//se non ci sono ostacoli il nemico si muove verso destra
-				if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
-				//se non ci sono ostacoli il nemico si muove verso sinistra 
-				else if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				//c'erano ostacoli sia a dx sia a sx, proviamo 
-				//else IA(currentMap, enemy, i, j);
-			} else {
-				if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				else if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
-				//else IA(currentMap, enemy, i, j);
-			}
-		} else {
-			if (y < Py) {
-				if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				else if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				//else IA(currentMap, enemy, i, j);
-			}
-			else {
-				if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				//else IA(currentMap, enemy, i, j);
+	//Per il numero dei nemici...
+	for (j = 0; j < numEnemies; j++) {
+		//prende la posizione di E #i
+		int x = this->enemies[j]->lenght;
+		int y = this->enemies[j]->height;
+		for (i = 0; i < MAX_ENEMY_MOVE; i++) {
+			//Se il nemico é ancora in vita...
+			if (this->enemies[j]->lifePoints > 0){
+				int xory;
+				char result;
+				//Se sono nella stessa riga delle x del player...
+				if (x == Px) 
+					xory = 1; //mi devo muovere nelle y
+				else if (y == Px)//Se sono nella stessa colonna delle y del player
+					xory = 0; //Mi devo muovere nelle x
+				//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
+				else xory = rand() % 2;
+				if (xory == 0) {
+					if (x < Px) {
+						result = moveObject(this->enemies[j], RIGHT);
+						//se non ci sono ostacoli il nemico si muove verso destra
+						if (result == PLAYER_SYM)
+							return *(this->enemies[j]->obj); 
+						//se non ci sono ostacoli il nemico si muove verso sinistra 
+						else if (result != EMPTY_SYM) {
+							if (moveObject(this->enemies[j], LEFT) == PLAYER_SYM)
+								return *(this->enemies[j]->obj);
+						}
+					} else {
+						result = moveObject(this->enemies[j], LEFT);
+						//se non ci sono ostacoli il nemico si muove verso destra
+						if (result == PLAYER_SYM)
+							return *(this->enemies[j]->obj); 
+						//se non ci sono ostacoli il nemico si muove verso sinistra 
+						else if (result != EMPTY_SYM) {
+							if (moveObject(this->enemies[j], RIGHT) == PLAYER_SYM)
+								return *(this->enemies[j]->obj);
+						}
+					}
+				} else {
+					if (y < Py) {
+						result = moveObject(this->enemies[j], DOWN);
+						//se non ci sono ostacoli il nemico si muove verso destra
+						if (result == PLAYER_SYM)
+							return *(this->enemies[j]->obj); 
+						//se non ci sono ostacoli il nemico si muove verso sinistra 
+						else if (result != EMPTY_SYM) {
+							if (moveObject(this->enemies[j], UP) == PLAYER_SYM)
+								return *(this->enemies[j]->obj);
+						}
+					}
+					else {
+						result = moveObject(this->enemies[j], UP);
+						//se non ci sono ostacoli il nemico si muove verso destra
+						if (result == PLAYER_SYM)
+							return *(this->enemies[j]->obj); 
+						//se non ci sono ostacoli il nemico si muove verso sinistra 
+						else if (result != EMPTY_SYM) {
+							if (moveObject(this->enemies[j], DOWN) == PLAYER_SYM)
+								return *(this->enemies[j]->obj);
+						}
+					}
+				}
 			}
 		}
 	}
-}
+	return '\0';
 }
 
 Enemy* Map::getEnemyByName(char name) {

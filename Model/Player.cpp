@@ -50,11 +50,10 @@ bool Player::shoot(Map *currentMap, Directions dir){
 			break;	
 		default: 
 			Enemy *e = currentMap->getEnemyByName(currentMap->matrix[y][x]);	
-			e->lifePoints -= SHOOT_DAMAGE ;
-			if(e->lifePoints <= 0){
-				delete e;
-				currentMap->matrix[y][x] == EMPTY_SYM;
-			}
+			e->lifePoints -= SHOOT_DAMAGE;
+			if (e->lifePoints <= 0) 
+				//delete e;
+				currentMap->matrix[y][x] = EMPTY_SYM;
 			break;
 	}
 	return true;

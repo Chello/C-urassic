@@ -491,18 +491,19 @@ Enemy** Map::getEnemies() {
 	return this->enemies;
 }
 
-void Map::IA(Enemy **enemy) {
+bool Map::IA(Enemy **enemy) {
 	//prende la posizione di P1
 	int Px = getPlayer()->lenght;
 	int Py = getPlayer()->height;
 
 	for (int j = 0; j < numEnemies; j++) {
 	//prende la posizione di E #i
-	int x = enemy[j]->lenght;
-	int y = enemy[j]->height;
-	int i = 0;
+	int x;
+	int y;
 	int xory;
-	for (; i < MAX_INPUT_MOVE; i++) {
+	for (int i = 0; i < MAX_INPUT_MOVE; i++) {
+		x = enemy[j]->lenght;
+		y = enemy[j]->height;
 		//pre-controllo di mossa su x o y
 		if (Px == x) xory = 1;
 		else if (Py == y) xory = 0;
@@ -511,31 +512,56 @@ void Map::IA(Enemy **enemy) {
 		if (xory == 0) {
 			//condizione
 			if (x < Px) {
+				/*if ((Px-x) == 1  && (Py-y) == 0) {
+					char *c = &matrix[x][y];
+					&matrix[x][y] = EMPTY_SYM;
+					&matrix[Px][Py] = c;
+					return false; 
+				}*/
 				//se non ci sono ostacoli il nemico si muove verso destra
-				if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
+				if (canMove(matrix[y][x+1])) moveObject(enemy[j], RIGHT);
 				//se non ci sono ostacoli il nemico si muove verso sinistra 
-				else if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
+				else if (canMove(matrix[y][x-1])) moveObject(enemy[j], LEFT);
 				//c'erano ostacoli sia a dx sia a sx, proviamo 
 				else moveObject(enemy[j], NULL_DIR);
 			} else {
-				if (moveObject(enemy[j], LEFT)) moveObject(enemy[j], LEFT);
-				else if (moveObject(enemy[j], RIGHT)) moveObject(enemy[j], RIGHT);
+				/*if ((x-Px) == 1  && (Py-y) == 0) {
+					char c = &matrix[x][y];
+					&matrix[x][y] = EMPTY_SYM;
+					&matrix[Px][Py] = c;
+					return false; 
+				}*/
+				if (canMove(matrix[y][x-1])) moveObject(enemy[j], LEFT);
+				else if (canMove(matrix[y][x+1])) moveObject(enemy[j], RIGHT);
 				else moveObject(enemy[j], NULL_DIR);
 			}
 		} else {
 			if (y < Py) {
-				if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
-				else if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
+				/*if ((Px-x) == 0  && (Py-y) == 1) {
+					char c = matrix[*x][*y];
+					matrix[*x][*y] = EMPTY_SYM;
+					matrix[*Px][*Py] = c;
+					return false; 
+				}*/
+				if (canMove(matrix[y+1][x])) moveObject(enemy[j], DOWN);
+				else if (canMove(matrix[y-1][x])) moveObject(enemy[j], UP);
 				else moveObject(enemy[j], NULL_DIR);
 			}
 			else {
-				if (moveObject(enemy[j], UP)) moveObject(enemy[j], UP);
-				else if (moveObject(enemy[j], DOWN)) moveObject(enemy[j], DOWN);
+				/*if ((Px-x) == 0  && (y-Py) == 1) {
+					char c = matrix[*x][*y];
+					matrix[*x][*y] = EMPTY_SYM;
+					matrix[*Px][*Py] = c;
+					return false; 
+				}*/
+				if (canMove(matrix[y-1][x])) moveObject(enemy[j], UP);
+				else if (canMove(matrix[y+1][x])) moveObject(enemy[j], DOWN);
 				else moveObject(enemy[j], NULL_DIR);
 			}
 		}	
 	}
 }
+return true;
 }
 
 Enemy* Map::getEnemyByName(char name) {

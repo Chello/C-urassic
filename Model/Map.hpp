@@ -117,7 +117,7 @@ public:
 	/*Ritorna l'array dei nemici*/
 	Enemy** getEnemies();
 	/*Metodo che muove i nemici*/
-	void IA(Enemy **enemy);
+	bool IA(Enemy **enemy);
 	/*Ritorna un nemico passandogli come parametro il suo nome/rappresentazone in mappa. */
 	Enemy* getEnemyByName(char name);
 protected:

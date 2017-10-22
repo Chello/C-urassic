@@ -510,7 +510,7 @@ char Map::IA() {
 				//Se sono nella stessa riga delle x del player...
 				if (x == Px) 
 					xory = 1; //mi devo muovere nelle y
-				else if (y == Px)//Se sono nella stessa colonna delle y del player
+				else if (y == Py)//Se sono nella stessa colonna delle y del player
 					xory = 0; //Mi devo muovere nelle x
 				//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
 				else xory = rand() % 2;
@@ -561,7 +561,7 @@ char Map::IA() {
 					}
 				}
 			}
-		}
+		}	
 	}
 	return '\0';
 }

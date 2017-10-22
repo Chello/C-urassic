@@ -105,9 +105,7 @@ void Game::insertMoves(){
 			dir = NULL_DIR;
 		} // chiude secondo while
 		this->currentMap->IA(this->enemies);
-		this->view->refresh(messageText);
-		
-		
+		this->view->refresh(messageText);	
 	} // chiude primo while
 }
 

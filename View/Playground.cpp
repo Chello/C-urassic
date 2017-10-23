@@ -49,8 +49,10 @@ void Playground::refresh(char *messageText) {
 
 	//Scrive tutti i dettagli relativi ai nemici
 	for (i = 1; i <= this->map->numEnemies; i++) {
-		sprintf(statusString[i], "%c: %d Lifepoints ",
-			*(enemies[i -1]->obj), enemies[i -1]->lifePoints);
+		if (enemies[i -1]->lifePoints > 0) {
+			sprintf(statusString[i], "%c: %d Lifepoints ",
+				*(enemies[i -1]->obj), enemies[i -1]->lifePoints);
+		} 
 		addSpaces(statusString[i]);
 	}
 

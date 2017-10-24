@@ -503,63 +503,70 @@ char Map::IA() {
 		int x = this->enemies[j]->lenght;
 		int y = this->enemies[j]->height;
 		for (i = 0; i < MAX_ENEMY_MOVE; i++) {
-			//Se il nemico é ancora in vita...
-			if (this->enemies[j]->lifePoints > 0){
-				int xory;
-				char result;
-				//Se sono nella stessa riga delle x del player...
-				if (x == Px) 
-					xory = 1; //mi devo muovere nelle y
-				else if (y == Py)//Se sono nella stessa colonna delle y del player
-					xory = 0; //Mi devo muovere nelle x
-				//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
-				else xory = rand() % 2;
-				if (xory == 0) {
-					if (x < Px) {
-						result = moveObject(this->enemies[j], RIGHT);
-						//se non ci sono ostacoli il nemico si muove verso destra
-						if (result == PLAYER_SYM)
-							return *(this->enemies[j]->obj); 
-						//se non ci sono ostacoli il nemico si muove verso sinistra 
-						else if (result != EMPTY_SYM) {
-							if (moveObject(this->enemies[j], LEFT) == PLAYER_SYM)
-								return *(this->enemies[j]->obj);
+			int random = rand() % 100;
+			if(random < (this->level*15)) {      //se il numero random è minore di una certa percentuale...
+				//Se il nemico é ancora in vita...
+				if (this->enemies[j]->lifePoints > 0){
+					int xory;
+					char result;
+					//Se sono nella stessa riga delle x del player...
+					if (x == Px) 
+						xory = 1; //mi devo muovere nelle y
+					else if (y == Py)//Se sono nella stessa colonna delle y del player
+						xory = 0; //Mi devo muovere nelle x
+					//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
+					else xory = rand() % 2;
+					if (xory == 0) {
+						if (x < Px) {
+							result = moveObject(this->enemies[j], RIGHT);
+							//se non ci sono ostacoli il nemico si muove verso destra
+							if (result == PLAYER_SYM)
+								return *(this->enemies[j]->obj); 
+							//se non ci sono ostacoli il nemico si muove verso sinistra 
+							else if (result != EMPTY_SYM) {
+								if (moveObject(this->enemies[j], LEFT) == PLAYER_SYM)
+									return *(this->enemies[j]->obj);
+							}
+						} else {
+							result = moveObject(this->enemies[j], LEFT);
+							//se non ci sono ostacoli il nemico si muove verso destra
+							if (result == PLAYER_SYM)
+								return *(this->enemies[j]->obj); 
+							//se non ci sono ostacoli il nemico si muove verso sinistra 
+							else if (result != EMPTY_SYM) {
+								if (moveObject(this->enemies[j], RIGHT) == PLAYER_SYM)
+									return *(this->enemies[j]->obj);
+							}
 						}
 					} else {
-						result = moveObject(this->enemies[j], LEFT);
-						//se non ci sono ostacoli il nemico si muove verso destra
-						if (result == PLAYER_SYM)
-							return *(this->enemies[j]->obj); 
-						//se non ci sono ostacoli il nemico si muove verso sinistra 
-						else if (result != EMPTY_SYM) {
-							if (moveObject(this->enemies[j], RIGHT) == PLAYER_SYM)
-								return *(this->enemies[j]->obj);
+						if (y < Py) {
+							result = moveObject(this->enemies[j], DOWN);
+							//se non ci sono ostacoli il nemico si muove verso destra
+							if (result == PLAYER_SYM)
+								return *(this->enemies[j]->obj); 
+							//se non ci sono ostacoli il nemico si muove verso sinistra 
+							else if (result != EMPTY_SYM) {
+								if (moveObject(this->enemies[j], UP) == PLAYER_SYM)
+									return *(this->enemies[j]->obj);
+							}
 						}
-					}
-				} else {
-					if (y < Py) {
-						result = moveObject(this->enemies[j], DOWN);
-						//se non ci sono ostacoli il nemico si muove verso destra
-						if (result == PLAYER_SYM)
-							return *(this->enemies[j]->obj); 
-						//se non ci sono ostacoli il nemico si muove verso sinistra 
-						else if (result != EMPTY_SYM) {
-							if (moveObject(this->enemies[j], UP) == PLAYER_SYM)
-								return *(this->enemies[j]->obj);
-						}
-					}
-					else {
-						result = moveObject(this->enemies[j], UP);
-						//se non ci sono ostacoli il nemico si muove verso destra
-						if (result == PLAYER_SYM)
-							return *(this->enemies[j]->obj); 
-						//se non ci sono ostacoli il nemico si muove verso sinistra 
-						else if (result != EMPTY_SYM) {
-							if (moveObject(this->enemies[j], DOWN) == PLAYER_SYM)
-								return *(this->enemies[j]->obj);
+						else {
+							result = moveObject(this->enemies[j], UP);
+							//se non ci sono ostacoli il nemico si muove verso destra
+							if (result == PLAYER_SYM)
+								return *(this->enemies[j]->obj); 
+							//se non ci sono ostacoli il nemico si muove verso sinistra 
+							else if (result != EMPTY_SYM) {
+								if (moveObject(this->enemies[j], DOWN) == PLAYER_SYM)
+									return *(this->enemies[j]->obj);
+							}
 						}
 					}
 				}
+			} else {
+				//mossa casuale
+				Directions dir = Directions(rand() % 5);
+				moveObject(this->enemies[j], dir);
 			}
 		}	
 	}

@@ -494,15 +494,17 @@ char Map::IA() {
 	int j;
 	int Px = getPlayer()->lenght;
 	int Py = getPlayer()->height;
+
+	char toReturn = '\0';
 	//Per il numero dei nemici...
 	for (j = 0; j < numEnemies; j++) {
 		//prende la posizione di E #i
 		int x = this->enemies[j]->lenght;
 		int y = this->enemies[j]->height;
 		for (i = 0; i < MAX_ENEMY_MOVE; i++) {
-			int random = rand() % 100;
 			if (this->enemies[j]->lifePoints > 0){
 				//se il numero random è minore di una certa percentuale...
+				int random = rand() % 100;
 				if(random < (this->level* MULT_RANDOM_ENEMY_MOVE)) {
 				//Se il nemico é ancora in vita...
 					int xory;
@@ -524,21 +526,21 @@ char Map::IA() {
 							result = moveObject(this->enemies[j], RIGHT);
 							//se non ci sono ostacoli il nemico si muove verso destra
 							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
+								toReturn = *(this->enemies[j]->obj); 
 							//se non ci sono ostacoli il nemico si muove verso sinistra 
 							else if (result != EMPTY_SYM) {
 								if (moveObject(this->enemies[j], LEFT) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
+									toReturn = *(this->enemies[j]->obj);
 							}
 						} else {
 							result = moveObject(this->enemies[j], LEFT);
 							//se non ci sono ostacoli il nemico si muove verso destra
 							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
+								toReturn = *(this->enemies[j]->obj); 
 							//se non ci sono ostacoli il nemico si muove verso sinistra 
 							else if (result != EMPTY_SYM) {
 								if (moveObject(this->enemies[j], RIGHT) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
+									toReturn = *(this->enemies[j]->obj);
 							}
 						}
 					} else {
@@ -546,22 +548,22 @@ char Map::IA() {
 							result = moveObject(this->enemies[j], DOWN);
 							//se non ci sono ostacoli il nemico si muove verso destra
 							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
+								toReturn = *(this->enemies[j]->obj); 
 							//se non ci sono ostacoli il nemico si muove verso sinistra 
 							else if (result != EMPTY_SYM) {
 								if (moveObject(this->enemies[j], UP) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
+									toReturn = *(this->enemies[j]->obj);
 							}
 						}
 						else {
 							result = moveObject(this->enemies[j], UP);
 							//se non ci sono ostacoli il nemico si muove verso destra
 							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
+								toReturn = *(this->enemies[j]->obj); 
 							//se non ci sono ostacoli il nemico si muove verso sinistra 
 							else if (result != EMPTY_SYM) {
 								if (moveObject(this->enemies[j], DOWN) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
+									toReturn = *(this->enemies[j]->obj);
 							}
 						}
 					}
@@ -569,28 +571,28 @@ char Map::IA() {
 					printf("ora invece é in %d.%d, e la mossa é frutto dell'intelligenza.\n", this->enemies[j]->lenght, this->enemies[j]->height);
 					#endif
 				} else {
-					//mossa casuale. Potrebbe anche non muoversi!
-					Directions dir = Directions(rand() % 4);
+					//mossa casuale.
 
 					#ifdef DEBUG
 					printf("Prima %c era in %d.%d, ", *(this->enemies[j]->obj), this->enemies[j]->lenght, this->enemies[j]->height);
 					#endif
 
+					Directions dir = Directions(rand() % 4);
 					char result = moveObject(this->enemies[j], dir);
 
 					#ifdef DEBUG
-					printf("ora invece é in %d.%d, e la mossa NON é frutto dell'intelligenza.\n", this->enemies[j]->lenght, this->enemies[j]->height);
+					printf("ora invece é in %d.%d, e la mossa NON é frutto dell'intelligenza. Si e mosso verso %d\n", this->enemies[j]->lenght, this->enemies[j]->height, dir);
 					#endif
 
 					//Se hai pestato il player...
 					if (result == PLAYER_SYM) 
 						//ritorna il nome dell'uccisore
-						return *(this->enemies[j]->obj);
+						toReturn = *(this->enemies[j]->obj);
 				}
 			}
 		}	
 	}
-	return '\0';
+	return toReturn;
 }
 
 Enemy* Map::getEnemyByName(char name) {

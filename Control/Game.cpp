@@ -103,7 +103,8 @@ void Game::insertMoves(){
 
 			if (haveToMove && mosse) {
 				/*#################### CI SI MUOVE ####################*/
-				switch (this->currentMap->movePlayer(dir)) {
+				char step = this->currentMap->movePlayer(dir);
+				switch (step) {
 					case WALL_SYM:
 						break;
 					case AMMO_SYM:
@@ -119,9 +120,8 @@ void Game::insertMoves(){
 					case EMPTY_SYM:
 						break;
 					default: //Se ha preso un nemico...
-						this->player->lifePoints = 0;
-						strcpy(messageText, "You lose!");	
-						//this->view->refresh(messageText);			
+						this->player->lifePoints -= ENEMY_DAMAGE;
+						sprintf(messageText, "You step on %c!", step);
 						break;
 				}
 			} if (!haveToMove && mosse) {
@@ -139,9 +139,9 @@ void Game::insertMoves(){
 			char killer = this->currentMap->IA();
 			//Se si ha perso...
 			if (killer != '\0') {
-				this->player->lifePoints = 0;
+				this->player->lifePoints -= ENEMY_DAMAGE;
 				//Scrivi il messaggio di perdita in attesa della chiusura del gioco
-				sprintf(messageText, "%c has killed you!", killer);
+				sprintf(messageText, "%c has damaged you!", killer);
 			}
 		}
 		//Rinfresco

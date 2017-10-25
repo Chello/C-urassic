@@ -48,6 +48,9 @@ class Enemy;
 //LP che vengono tolti ad un nemico se colpito dallo sparo
 #define SHOOT_DAMAGE 50
 
+//Punti vita che i nemici tolgono al player
+#define ENEMY_DAMAGE 50
+
 /*Moltiplicatore di probabilitá che una mossa sia casuale oppure no.
 La probabilitá che un nemico esegua l'azione secondo l'intelligenza dipende da:
 MULT_RANDOM_ENEMY_MOVE * numero del livello attuale.

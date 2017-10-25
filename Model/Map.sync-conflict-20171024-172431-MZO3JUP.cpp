@@ -3,9 +3,8 @@
 #include "../Model/Map.hpp"
 #endif
 
-Map::Map(int level, Player *player) {
+Map::Map(int level) {
 	this->init();
-	this->player = player;
 	this->level = level;
 	this->generateMap();
 }
@@ -24,19 +23,6 @@ Map::Map(const char *presetFile) {
     this->generateMap(); 
 }
 
-Map::~Map() {
-	int i;
-	/*Distruzione di enemies*/
-	for (i = 0; i < this->numEnemies; i++){
-		delete this->enemies[i];
-	}
-	/*Distruzione di Portal*/
-	delete this->portal;
-	/*Distruzione di Items*/
-	for (i = 0; i < this->numItems; i++) {
-		delete this->items[i];
-	}
-}
 
 void Map::getPreset(FILE *preset) {
 	bool hasLineEnded;
@@ -106,19 +92,6 @@ void Map::generateMap() {
 
 		this->drawRoom(xSize, ySize, x, y, dir);
 
-		/*############## POSIZIONAMENTO PLAYER ##############*/
-		if (i == 0) {
-			this->matrix[this->height -2][1] = PLAYER_SYM;
-			/*this->player = new Player(
-				&matrix[this->height -2][1], 
-				this->height -2, 
-				1, 
-				STARTING_LIFEPOINTS, 
-				STARTING_AMMO);*/
-			this->player->height = this->height -2;
-			this->player->lenght = 1;
-			this->player->obj = &matrix[this->height -2][1];
-		}
 		/*############## GENERAZIONE NEMICI ##############*/
 		for (j = 0; j < MULT_ENEMIES ; j++){
 			int xEnemy = 1 + x + rand() % (xSize -2);
@@ -180,6 +153,16 @@ void Map::generateMap() {
 			dir = UP;
 		}
 
+		/*############## GENERAZIONE PLAYER ##############*/
+		if (i == 0) {
+			this->matrix[this->height -2][1] = PLAYER_SYM;
+			this->player = new Player(
+				&matrix[this->height -2][1], 
+				this->height -2, 
+				1, 
+				STARTING_LIFEPOINTS, 
+				STARTING_AMMO);
+		}
 
 	}
 
@@ -193,7 +176,7 @@ void Map::generateMap() {
 		xPortal = this->lenght -2;
 		yPortal = this->height -2;
 	} else if (i > 4) {
-		xPortal = this->lenght - ((xSize) * (i - 3));
+		xPortal = this->lenght - ((xSize) * (i - 2));
 		yPortal = this->height -2;
 	}
 
@@ -403,7 +386,7 @@ void Map::generateMap() {
 }*/
 #endif
 
-char Map::movePlayer(Directions dir) {
+bool Map::movePlayer(Directions dir) {
 	return moveObject(this->player, dir);
 }
 
@@ -415,72 +398,58 @@ void Map::cleanMatrix() {
 	}
 }
 
-char Map::moveObject(Player *mapObj, Directions dir) {
+bool Map::moveObject(Player *mapObj, Directions dir) {
 	int *l, *h;
-	char toSub;
 	l = &(mapObj->lenght);
 	h = &(mapObj->height);
 	switch (dir){
 		case UP:
-			toSub = matrix[(*h)-1][(*l)];
-			if (this->canMove(toSub)) {
+			if (matrix[(*h)-1][(*l)] == EMPTY_SYM) {
 
 				matrix[(*h)-1][(*l)] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*h)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
+				return true;
 			}
 		break;
 		case DOWN:
-			toSub = matrix[(*h) +1][(*l)];
-			if (this->canMove(toSub)) {
+			if (matrix[(*h) +1][(*l)] == EMPTY_SYM) {
 
 				matrix[(*h) +1][(*l)] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*h)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
+				return true;
 			}
 			break;
 		case LEFT:
-			toSub = matrix[(*h)][(*l) -1];
-			if (this->canMove(toSub)) {
+			if (matrix[(*h)][(*l) -1] == EMPTY_SYM) {
 
 				matrix[(*h)][(*l) -1] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*l)--;
 				mapObj->obj = &matrix[(*h)][(*l)];
+				return true;
 			}
 			break;
 		case RIGHT:
-			toSub = matrix[(*h)][(*l) +1];
-			if (this->canMove(toSub)) {
+			if (matrix[(*h)][(*l) +1] == EMPTY_SYM) {
 
 				matrix[(*h)][(*l) +1] = *mapObj->obj;
 				matrix[(*h)][(*l)] = EMPTY_SYM;
 
 				(*l)++;
 				mapObj->obj = &matrix[(*h)][(*l)];
+				return true;
 			}
 			break;
-		default: return '\0';
+		default: return false;
 	}
-	return toSub;
-}
-
-bool Map::canMove(char c) {
-	switch (c) {
-			case EMPTY_SYM:
-			case AMMO_SYM:
-			case LP_SYM:
-				return true;
-			case WALL_SYM:
-			case PORTAL_SYM: 
-			default:
-				return false;
-	}
+	return false;
 }
 
 Player* Map::getPlayer() {
@@ -489,95 +458,4 @@ Player* Map::getPlayer() {
 
 Enemy** Map::getEnemies() {
 	return this->enemies;
-}
-
-char Map::IA() {
-	//prende la posizione del player
-	int i;
-	int j;
-	int Px = getPlayer()->lenght;
-	int Py = getPlayer()->height;
-	//Per il numero dei nemici...
-	for (j = 0; j < numEnemies; j++) {
-		//prende la posizione di E #i
-		int x = this->enemies[j]->lenght;
-		int y = this->enemies[j]->height;
-		for (i = 0; i < MAX_ENEMY_MOVE; i++) {
-			int random = rand() % 100;
-			if(random < (this->level* MULT_RANDOM_ENEMY_MOVE)) {      //se il numero random è minore di una certa percentuale...
-				//Se il nemico é ancora in vita...
-				if (this->enemies[j]->lifePoints > 0){
-					int xory;
-					char result;
-					//Se sono nella stessa riga delle x del player...
-					if (x == Px) 
-						xory = 1; //mi devo muovere nelle y
-					else if (y == Py)//Se sono nella stessa colonna delle y del player
-						xory = 0; //Mi devo muovere nelle x
-					//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
-					else xory = rand() % 2;
-					if (xory == 0) {
-						if (x < Px) {
-							result = moveObject(this->enemies[j], RIGHT);
-							//se non ci sono ostacoli il nemico si muove verso destra
-							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
-							//se non ci sono ostacoli il nemico si muove verso sinistra 
-							else if (result != EMPTY_SYM) {
-								if (moveObject(this->enemies[j], LEFT) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
-							}
-						} else {
-							result = moveObject(this->enemies[j], LEFT);
-							//se non ci sono ostacoli il nemico si muove verso destra
-							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
-							//se non ci sono ostacoli il nemico si muove verso sinistra 
-							else if (result != EMPTY_SYM) {
-								if (moveObject(this->enemies[j], RIGHT) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
-							}
-						}
-					} else {
-						if (y < Py) {
-							result = moveObject(this->enemies[j], DOWN);
-							//se non ci sono ostacoli il nemico si muove verso destra
-							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
-							//se non ci sono ostacoli il nemico si muove verso sinistra 
-							else if (result != EMPTY_SYM) {
-								if (moveObject(this->enemies[j], UP) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
-							}
-						}
-						else {
-							result = moveObject(this->enemies[j], UP);
-							//se non ci sono ostacoli il nemico si muove verso destra
-							if (result == PLAYER_SYM)
-								return *(this->enemies[j]->obj); 
-							//se non ci sono ostacoli il nemico si muove verso sinistra 
-							else if (result != EMPTY_SYM) {
-								if (moveObject(this->enemies[j], DOWN) == PLAYER_SYM)
-									return *(this->enemies[j]->obj);
-							}
-						}
-					}
-				}
-			} else {
-				//mossa casuale
-				Directions dir = Directions(rand() % 5);
-				moveObject(this->enemies[j], dir);
-			}
-		}	
-	}
-	return '\0';
-}
-
-Enemy* Map::getEnemyByName(char name) {
-	int i;
-	for (i = 0; i < this->numEnemies; i++){
-		if (*(this->enemies[i]->obj) == name)
-			return this->enemies[i];
-	}
-	return NULL;
 }

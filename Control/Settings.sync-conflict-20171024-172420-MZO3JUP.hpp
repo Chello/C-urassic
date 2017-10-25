@@ -3,8 +3,6 @@
 //Sto definendo tutte le classi che dipendono da altre
 class Map;
 class Enemy;
-//class Player;
-
 //Qua si definiscono alcune impostazioni per l'intero gioco.
 
 //Ad esempio i simboli dei vari elementi del tabellone
@@ -32,21 +30,3 @@ class Enemy;
 
 //Moltiplicatore degli item totali nella mappa
 #define MULT_ITEM 2
-
-//Massimo numero di mosse ammissibili in input
-#define MAX_INPUT_MOVE 3
-
-//Massimo numero di mosse ammissibili da un nemico
-#define MAX_ENEMY_MOVE 1
-
-//Ammo che si aggiungono allo scontro con un AMMO_SYM
-#define ADD_AMMO 30
-
-//LP che si aggiungono allo scontro con un LP_SYM
-#define ADD_LP 50
-
-//LP che vengono tolti ad un nemico se colpito dallo sparo
-#define SHOOT_DAMAGE 50
-
-//Moltiplicatore di probabilitá che una mossa sia casuale oppure no
-#define MULT_RANDOM_ENEMY_MOVE 15

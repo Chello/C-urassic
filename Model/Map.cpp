@@ -504,9 +504,10 @@ char Map::IA() {
 		int y = this->enemies[j]->height;
 		for (i = 0; i < MAX_ENEMY_MOVE; i++) {
 			int random = rand() % 100;
-			if(random < (this->level* MULT_RANDOM_ENEMY_MOVE)) {      //se il numero random è minore di una certa percentuale...
+			if (this->enemies[j]->lifePoints > 0){
+				//se il numero random è minore di una certa percentuale...
+				if(random < (this->level* MULT_RANDOM_ENEMY_MOVE)) {
 				//Se il nemico é ancora in vita...
-				if (this->enemies[j]->lifePoints > 0){
 					int xory;
 					char result;
 					//Se sono nella stessa riga delle x del player...
@@ -516,6 +517,11 @@ char Map::IA() {
 						xory = 0; //Mi devo muovere nelle x
 					//random per scegliere se muoversi sulle x oppure sulle y (0 = X, 1 = Y)
 					else xory = rand() % 2;
+
+					#ifdef DEBUG
+					printf("Prima %c era in %d.%d, ", *(this->enemies[j]->obj), x, y);
+					#endif
+
 					if (xory == 0) {
 						if (x < Px) {
 							result = moveObject(this->enemies[j], RIGHT);
@@ -562,11 +568,28 @@ char Map::IA() {
 							}
 						}
 					}
+					#ifdef DEBUG
+					printf("ora invece é in %d.%d, e la mossa é frutto dell'intelligenza.\n", this->enemies[j]->lenght, this->enemies[j]->height);
+					#endif
+				} else {
+					//mossa casuale. Potrebbe anche non muoversi!
+					Directions dir = Directions(rand() % 4);
+
+					#ifdef DEBUG
+					printf("Prima %c era in %d.%d, ", *(this->enemies[j]->obj), this->enemies[j]->lenght, this->enemies[j]->height);
+					#endif
+
+					char result = moveObject(this->enemies[j], dir);
+
+					#ifdef DEBUG
+					printf("ora invece é in %d.%d, e la mossa NON é frutto dell'intelligenza.\n", this->enemies[j]->lenght, this->enemies[j]->height);
+					#endif
+
+					//Se hai pestato il player...
+					if (result == PLAYER_SYM) 
+						//ritorna il nome dell'uccisore
+						return *(this->enemies[j]->obj);
 				}
-			} else {
-				//mossa casuale
-				Directions dir = Directions(rand() % 5);
-				moveObject(this->enemies[j], dir);
 			}
 		}	
 	}

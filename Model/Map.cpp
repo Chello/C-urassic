@@ -30,12 +30,10 @@ Map::~Map() {
 	for (i = 0; i < this->numEnemies; i++){
 		delete this->enemies[i];
 	}
-	/*Distruzione di Portal*/
-	delete this->portal;
-	/*Distruzione di Items*/
+	/*Distruzione di Items*//*
 	for (i = 0; i < this->numItems; i++) {
 		delete this->items[i];
-	}
+	}*/
 }
 
 void Map::getPreset(FILE *preset) {
@@ -81,6 +79,8 @@ void Map::generateMap() {
 	int partialNumEnemies = 0;
 	int partialNumItems = 0;
 
+	int numItems = MULT_ITEM * level;
+
 	Directions dir = NULL_DIR;
 
 	int x = 0, y = 0;
@@ -93,10 +93,8 @@ void Map::generateMap() {
 	ySize = rand() % ((MAX_ROOM_SIZE + numRooms) - MIN_ROOM_SIZE + numRooms) /*Lo scarto*/ + MIN_ROOM_SIZE + numRooms; /*+ il minimo*/
 
 	this->numEnemies = numRooms * MULT_ENEMIES;
-	this->numItems = MULT_ITEM * level;
 
 	this->enemies = new Enemy*[this->numEnemies];
-	this->items = new Item*[this->numItems];
 	/*############## GENERAZIONE MAPPA ##############*/
 	for (i = 0; i < numRooms; i++) {
 		int j;
@@ -137,7 +135,7 @@ void Map::generateMap() {
 		}
 
 		/*############## GENERAZIONE ITEMS ##############*/
-		for (j = 0; j < this->numItems / numRooms; j++) {
+		for (j = 0; j < numItems / numRooms; j++) {
 			int xItem = 1 + x + rand() % (xSize -2);
 			int yItem = 1 + y + rand() % (ySize -2);
 
@@ -145,21 +143,21 @@ void Map::generateMap() {
 				//É un LP oppure un AMMO?
 				if (rand() % 2) { //Se é un AMMO
 					this->matrix[yItem][xItem] = AMMO_SYM;
-					this->items[partialNumItems] = new Item(
+					/*this->items[partialNumItems] = new Item(
 						&this->matrix[yItem][xItem], 
 						yItem, 
 						xItem, 
 						STARTING_AMMO, 
-						AMMO);
+						AMMO);*/
 					partialNumItems++;
 				} else { //Se é un LP
 					this->matrix[yItem][xItem] = LP_SYM;
-					this->items[partialNumItems] = new Item(
+					/*this->items[partialNumItems] = new Item(
 						&this->matrix[yItem][xItem], 
 						yItem, 
 						xItem, 
 						0, 
-						LIFEPOINTS);
+						LIFEPOINTS);*/
 					partialNumItems++;
 				}
 			} else j--;
@@ -198,13 +196,12 @@ void Map::generateMap() {
 	}
 
 	this->matrix[yPortal][xPortal] = PORTAL_SYM;
-	this->portal = new Item(
+	/*this->portal = new Item(
 		&this->matrix[yPortal][xPortal], 
 		yPortal, 
 		xPortal,
 		0,
-		PORTAL);
-
+		PORTAL);*/
 
 }
 

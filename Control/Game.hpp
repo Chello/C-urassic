@@ -39,11 +39,6 @@
 #include "../Model/ItemTypes.hpp"
 #endif
 
-#ifndef ITEM_H
-#define ITEM_H
-#include "../Model/Item.hpp"
-#endif
-
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "../Model/Enemy.hpp"

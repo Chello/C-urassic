@@ -44,11 +44,6 @@
 #include "ItemTypes.hpp"
 #endif
 
-#ifndef ITEM_H
-#define ITEM_H
-#include "Item.hpp"
-#endif
-
 #if 1
 #ifndef ENEMY_H
 #define ENEMY_H
@@ -82,8 +77,6 @@ public:
 	char 		matrix[HEIGHT][LENGHT];
 	/*Il numero dei nemici*/
 	int 		numEnemies;
-	/*Il numero degli items*/
-	int 		numItems;
 	/*Dimensioni effettive della mappa.
 		this->height <= HEIGHT
 		this->lenght <= LENGHT
@@ -132,10 +125,6 @@ protected:
 	Player 	*player;
 	/*I nemici del gioco*/
 	Enemy 	**enemies;
-	/*Gli items*/
-	Item 	**items;
-	/*Il portale*/
-	Item 	*portal;
 
 	/*Il livello attuale della mappa*/
 	int 		level;

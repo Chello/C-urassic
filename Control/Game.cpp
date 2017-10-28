@@ -103,7 +103,16 @@ void Game::insertMoves(){
 
 			if (haveToMove && mosse) {
 				/*#################### CI SI MUOVE ####################*/
+				#ifdef DEBUG
+				printf("IL player era nella posizione %d.%d, ", this->player->height, this->player->lenght);
+				#endif
+
 				char step = this->currentMap->movePlayer(dir);
+
+				#ifdef DEBUG
+				printf("adesso invece é nella posizione %d.%d, ha pestato un carattere %c .\n", this->player->height, this->player->lenght, step);
+				#endif
+
 				switch (step) {
 					case WALL_SYM:
 						break;

@@ -40,6 +40,10 @@ bool Player::shoot(Map *currentMap, Directions dir){
 		} 
 	} while(currentMap->matrix[y][x] == EMPTY_SYM);
 
+	#ifdef DEBUG
+	printf("IL player ha sparato nella direzione %d, ha colpito %c", dir, currentMap->matrix[y][x]);
+	#endif
+
 	switch(currentMap->matrix[y][x]){
 		case WALL_SYM:
 		case PORTAL_SYM:
@@ -51,11 +55,20 @@ bool Player::shoot(Map *currentMap, Directions dir){
 		default: 
 			Enemy *e = currentMap->getEnemyByName(currentMap->matrix[y][x]);	
 			e->lifePoints -= SHOOT_DAMAGE;
+
+			#ifdef DEBUG
+			printf(" ed ora ha %d lifePoints", e->lifePoints);
+			#endif
+
 			if (e->lifePoints <= 0) 
 				//delete e;
 				currentMap->matrix[y][x] = EMPTY_SYM;
 			break;
 	}
+
+	#ifdef DEBUG
+	printf(".\n");
+	#endif
 	return true;
 }
 

@@ -217,7 +217,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (xSize - holeSize) +1;
+		offset = rand() % (xSize - holeSize) +2;
 		holeSize += offset;
 	}
 
@@ -237,7 +237,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (ySize - holeSize) +1;
+		offset = rand() % (ySize - holeSize) +2;
 		holeSize += offset;
 	}
 
@@ -257,7 +257,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (xSize - holeSize) +1;
+		offset = rand() % (xSize - holeSize) +2;
 		holeSize += offset;
 	}
 
@@ -277,7 +277,7 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 		//Calcolo la dimensione randomicamente del muro
 		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (ySize - holeSize) +1;
+		offset = rand() % (ySize - holeSize) +2;
 		holeSize += offset;
 	}
 
@@ -462,7 +462,8 @@ char Map::moveObject(Player *mapObj, Directions dir) {
 				mapObj->obj = &matrix[(*h)][(*l)];
 			}
 			break;
-		default: return '\0';
+		default: 
+			return '\0';
 	}
 	return toSub;
 }

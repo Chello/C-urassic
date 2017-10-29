@@ -25,22 +25,22 @@ class Enemy;
 //Qua decido che quando comincia una partita il player ha 100 'punti vita'
 #define STARTING_LIFEPOINTS 100
 
-#define STARTING_AMMO 30
+#define STARTING_AMMO 10
 
 //Moltiplicatore dei nemici per la generazone nella mappa
-#define MULT_ENEMIES 3
+#define MULT_ENEMIES 4
 
-//Moltiplicatore degli item totali nella mappa
+//Moltiplicatore degli item per ogni stanza della mappa
 #define MULT_ITEM 2
 
 //Massimo numero di mosse ammissibili in input
 #define MAX_INPUT_MOVE 3
 
-//Massimo numero di mosse ammissibili da un nemico
+//Massimo numero di mosse ammissibili da un nemico tramite l'intelligenza artificiale
 #define MAX_ENEMY_MOVE 1
 
 //Ammo che si aggiungono allo scontro con un AMMO_SYM
-#define ADD_AMMO 30
+#define ADD_AMMO 5
 
 //LP che si aggiungono allo scontro con un LP_SYM
 #define ADD_LP 50
@@ -57,4 +57,5 @@ MULT_RANDOM_ENEMY_MOVE * numero del livello attuale.
 */
 #define MULT_RANDOM_ENEMY_MOVE 15
 
+//Decommentare la define del debug per attivare stringhe verbose di ció che accade
 //#define DEBUG

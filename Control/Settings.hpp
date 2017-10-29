@@ -57,4 +57,4 @@ MULT_RANDOM_ENEMY_MOVE * numero del livello attuale.
 */
 #define MULT_RANDOM_ENEMY_MOVE 15
 
-#define DEBUG
+//#define DEBUG

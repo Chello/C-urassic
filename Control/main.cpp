@@ -37,6 +37,7 @@ int main(int argc, char const *argv[]) {
 	Game *g = new Game();
 	//g->start();
 	g->insertMoves();
+	//g->debug();
 
 	return 0;
 }

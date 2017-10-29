@@ -215,9 +215,11 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 
 	if (holeSide == UP){
 		//Calcolo la dimensione randomicamente del muro
-		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		holeSize = rand() % ((int) ((double) xSize /100 * DIST_WALL)) +1;
+
+		//holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (xSize - holeSize) +2;
+		offset = rand() % (xSize - holeSize) + 1;
 		holeSize += offset;
 	}
 
@@ -235,9 +237,9 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 
 	if (holeSide == RIGHT){
 		//Calcolo la dimensione randomicamente del muro
-		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		holeSize = rand() % ((int) ((double)ySize /100 *DIST_WALL)) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (ySize - holeSize) +2;
+		offset = rand() % (ySize - holeSize) + 1;
 		holeSize += offset;
 	}
 
@@ -255,9 +257,9 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 
 	if (holeSide == DOWN){
 		//Calcolo la dimensione randomicamente del muro
-		holeSize = rand() % ((int) ((double)this->lenght /100 *DIST_WALL) -1) +1;
+		holeSize = rand() % ((int) ((double)xSize /100 *DIST_WALL)) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (xSize - holeSize) +2;
+		offset = rand() % (xSize - holeSize) + 1;
 		holeSize += offset;
 	}
 
@@ -275,9 +277,9 @@ void Map::drawRoom(int xSize, int ySize, int xS, int yS, Directions holeSide) {
 
 	if (holeSide == LEFT){
 		//Calcolo la dimensione randomicamente del muro
-		holeSize = rand() % ((int) ((double)this->height /100 *DIST_WALL) -1) +1;
+		holeSize = rand() % ((int) ((double)ySize /100 *DIST_WALL)) +1;
 		//Ci aggiungo un offset per non farlo appiccicato a terra
-		offset = rand() % (ySize - holeSize) +2;
+		offset = rand() % (ySize - holeSize) + 1;
 		holeSize += offset;
 	}
 

@@ -182,3 +182,16 @@ Game::Game() {
 	this->view->refresh();
 }
 #endif
+
+void Game::debug() {
+	this->levelUp();
+	this->view->refresh();
+	this->levelUp();
+	this->view->refresh();
+	this->levelUp();
+	this->view->refresh();
+	this->levelUp();
+	this->view->refresh();
+	this->levelUp();
+	this->view->refresh();
+}

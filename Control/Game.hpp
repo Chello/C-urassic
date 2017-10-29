@@ -57,10 +57,9 @@ public:
 	//Costruttore. Genera gli oggetti e inizializza le prime variabili del gioco.
 	Game();
 	//Let's Play!
-	void start();
-	//
 	void insertMoves();
 
+	void debug();
 private:
 	/*Metodo che fa terminare il gioco.
 	gameOver: true se si ha perso/terminato la partita, false se si ha vinto*/
